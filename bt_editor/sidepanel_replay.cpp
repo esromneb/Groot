@@ -3,7 +3,7 @@
 
 #include <QDir>
 #include <QFile>
-#include <QtConcurrent/QtConcurrentRun>
+// #include <QtConcurrent/QtConcurrentRun>
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QSettings>

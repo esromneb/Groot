@@ -2,7 +2,7 @@
 #define SIDEPANEL_MONITOR_H
 
 #include <QFrame>
-#include <zmq.hpp>
+// #include <zmq.hpp>
 
 #include "bt_editor_base.h"
 
@@ -41,8 +41,8 @@ signals:
 private:
     Ui::SidepanelMonitor *ui;
 
-    zmq::context_t _zmq_context;
-    zmq::socket_t  _zmq_subscriber;
+    // zmq::context_t _zmq_context;
+    // zmq::socket_t  _zmq_subscriber;
 
     bool _connected;
     std::string _connection_address_pub;

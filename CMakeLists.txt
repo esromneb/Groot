@@ -14,10 +14,19 @@ project(groot)
 
 include(./qt_hack.cmake)
 
+set(Qt5rcc_DIR "/src/lib/qt5/qtbase/bin/")
 
 find_package(Qt5
  COMPONENTS  Core Widgets Gui OpenGL Xml Svg
  )
+
+
+
+# set(AM_QT_RCC_EXECUTABLE "/usr/lib/qt5/bin/rcc")
+# set(AM_QT_RCC_EXECUTABLE "/src/lib/qt5/qtbase/bin/rcc")
+
+message(STATUS "RCCCCCCCCCCCCCCC")
+message(STATUS "${Qt5Core_RCC_EXECUTABLE}")
 
 
 
@@ -63,8 +72,8 @@ endif(catkin_FOUND)
 add_definitions(${Qt5Widgets_DEFINITIONS} -DNODE_EDITOR_STATIC )
 set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
-set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+# set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+# set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
 INCLUDE_DIRECTORIES( ${catkin_INCLUDE_DIRS} ./QtNodeEditor/include ./  )
 
@@ -144,6 +153,10 @@ add_library(behavior_tree_editor
     ${APP_CPPS}
     ${FORMS_HEADERS}
 )
+
+# /mnt/overflow/work/wasm-groot/lib/Groot/bt_editor/resources/icons.qrc
+qt5_add_resources(RESOURCES ./bt_editor/resources/icons.qrc)
+# qt5_add_binary_resources(behavior_tree_editor bt_editor/resources)
 
 SET(GROOT_DEPENDENCIES QtNodeEditor )
 
