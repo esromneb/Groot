@@ -7,46 +7,10 @@ project(groot)
 
 include(./qt_hack.cmake)
 
-# SET(_qt5_install_prefix /mnt/overflow/work/wasm-groot/lib/qt5/)
 
-# SET(Qt5_DIR /usr/lib/x86_64-linux-gnu/cmake/Qt5/)
-# SET(Qt5_DIR /mnt/overflow/work/wasm-groot/lib/qt5/)
-
-# set(Qt5Core_DIR /mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Core)
-# set(Qt5_DIR /mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5)
-# set(QT_QMAKE_EXECUTABLE /mnt/overflow/work/wasm-groot/lib/qt5/qtbase/bin/qmake)
-
-
-# find_package(Qt5
-#  PATHS /mnt/overflow/work/wasm-groot/lib/qt5/qtbase
-#  COMPONENTS  Core Widgets Gui OpenGL Xml Svg
-#  )
-
-# SET(Qt5Core_DIR "")
-
-# SET(Qt5Core_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Core")
-# SET(Qt5Widgets_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Widgets")
-# SET(Qt5Gui_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Gui")
-# SET(Qt5OpenGL_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5OpenGL")
-# SET(Qt5Xml_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Xml")
-# SET(Qt5Svg_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Svg")
-
-
-# message(STATUS "${Qt5Core_DIR}")
-# message(STATUS "${Qt5Widgets_DIR}")
-# message(STATUS "${Qt5Gui_DIR}")
-# message(STATUS "${Qt5OpenGL_DIR}")
-# message(STATUS "${Qt5Xml_DIR}")
-# message(STATUS "${Qt5Svg_DIR}")
-# message(STATUS "${Qt5Rrc_DIR}")
-
-# -- Could NOT find Qt5Core (missing: Qt5Core_DIR)
-# -- Could NOT find Qt5Widgets (missing: Qt5Widgets_DIR)
-# -- Could NOT find Qt5Gui (missing: Qt5Gui_DIR)
-# -- Could NOT find Qt5OpenGL (missing: Qt5OpenGL_DIR)
-# -- Could NOT find Qt5Xml (missing: Qt5Xml_DIR)
-# -- Could NOT find Qt5Svg (missing: Qt5Svg_DIR)
-
+find_package(Qt5
+ COMPONENTS  Core Widgets Gui OpenGL Xml Svg
+ )
 
 
 
@@ -97,10 +61,10 @@ set(CMAKE_AUTORCC ON)
 add_definitions(${Qt5Widgets_DEFINITIONS} -DNODE_EDITOR_STATIC )
 set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
-#set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-#set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
-# INCLUDE_DIRECTORIES( ${catkin_INCLUDE_DIRS} ./QtNodeEditor/include ./  )
+INCLUDE_DIRECTORIES( ${catkin_INCLUDE_DIRS} ./QtNodeEditor/include ./  )
 
 add_subdirectory( QtNodeEditor )
 
@@ -125,77 +89,77 @@ add_subdirectory( QtNodeEditor )
 
 # ##########################################
 
-# set(APP_CPPS
-#     ./bt_editor/models/BehaviorTreeNodeModel.cpp
-#     ./bt_editor/models/SubtreeNodeModel.cpp
+set(APP_CPPS
+    ./bt_editor/models/BehaviorTreeNodeModel.cpp
+    ./bt_editor/models/SubtreeNodeModel.cpp
 
-#     ./bt_editor/mainwindow.cpp
-#     ./bt_editor/editor_flowscene.cpp
-#     ./bt_editor/utils.cpp
-#     ./bt_editor/bt_editor_base.cpp
-#     ./bt_editor/graphic_container.cpp
-#     ./bt_editor/startup_dialog.cpp
+    ./bt_editor/mainwindow.cpp
+    ./bt_editor/editor_flowscene.cpp
+    ./bt_editor/utils.cpp
+    ./bt_editor/bt_editor_base.cpp
+    ./bt_editor/graphic_container.cpp
+    ./bt_editor/startup_dialog.cpp
 
-#     ./bt_editor/sidepanel_editor.cpp
-#     ./bt_editor/sidepanel_replay.cpp
-#     ./bt_editor/custom_node_dialog.cpp
+    ./bt_editor/sidepanel_editor.cpp
+    ./bt_editor/sidepanel_replay.cpp
+    ./bt_editor/custom_node_dialog.cpp
 
-#     ./bt_editor/XML_utilities.cpp
-#     )
+    ./bt_editor/XML_utilities.cpp
+    )
 
-# set(RESOURCE_FILES
-#     ./bt_editor/resources/icons.qrc
-#     ./bt_editor/resources/style.qrc
-#     ./test_data/test_files.qrc
-#     )
+set(RESOURCE_FILES
+    ./bt_editor/resources/icons.qrc
+    ./bt_editor/resources/style.qrc
+    ./test_data/test_files.qrc
+    )
 
-# set(FORMS_UI
-#   ./bt_editor/about_dialog.ui
-#   ./bt_editor/mainwindow.ui
-#   ./bt_editor/action_form.ui
-#   ./bt_editor/sidepanel_editor.ui
-#   ./bt_editor/sidepanel_replay.ui
-#   ./bt_editor/startup_dialog.ui
-#   ./bt_editor/custom_node_dialog.ui
-#   )
+set(FORMS_UI
+  ./bt_editor/about_dialog.ui
+  ./bt_editor/mainwindow.ui
+  ./bt_editor/action_form.ui
+  ./bt_editor/sidepanel_editor.ui
+  ./bt_editor/sidepanel_replay.ui
+  ./bt_editor/startup_dialog.ui
+  ./bt_editor/custom_node_dialog.ui
+  )
 
-# find_package(ZMQ)
+find_package(ZMQ)
 
-# if( ZMQ_FOUND )
-#     message(STATUS "ZeroMQ found.")
-#     add_definitions( -DZMQ_FOUND )
+if( ZMQ_FOUND )
+    message(STATUS "ZeroMQ found.")
+    add_definitions( -DZMQ_FOUND )
 
-#     set(APP_CPPS ${APP_CPPS} ./bt_editor/sidepanel_monitor.cpp )
-#     set(FORMS_UI ${FORMS_UI} ./bt_editor/sidepanel_monitor.ui )
+    set(APP_CPPS ${APP_CPPS} ./bt_editor/sidepanel_monitor.cpp )
+    set(FORMS_UI ${FORMS_UI} ./bt_editor/sidepanel_monitor.ui )
 
-# else()
-#     message(WARNING "ZeroMQ NOT found. Real-time monitoring disabled.")
-# endif()
+else()
+    message(WARNING "ZeroMQ NOT found. Real-time monitoring disabled.")
+endif()
 
-# QT5_WRAP_UI(FORMS_HEADERS ${FORMS_UI})
+QT5_WRAP_UI(FORMS_HEADERS ${FORMS_UI})
 
-# add_library(behavior_tree_editor
-#     ${APP_CPPS}
-#     ${FORMS_HEADERS}
-# )
+add_library(behavior_tree_editor
+    ${APP_CPPS}
+    ${FORMS_HEADERS}
+)
 
-# SET(GROOT_DEPENDENCIES QtNodeEditor )
+SET(GROOT_DEPENDENCIES QtNodeEditor )
 
-# if( catkin_FOUND )
-#     SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} ${catkin_LIBRARIES} )
-# else()
-#     SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} behaviortree_cpp_v3 )
-# endif()
+if( catkin_FOUND )
+    SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} ${catkin_LIBRARIES} )
+else()
+    SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} behaviortree_cpp_v3 )
+endif()
 
-# if( ZMQ_FOUND )
-#     SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} zmq)
-# endif()
+if( ZMQ_FOUND )
+    SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} zmq)
+endif()
 
-# target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
+target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
 
 
-# add_executable(Groot ./bt_editor/main.cpp  ${RESOURCE_FILES})
-# target_link_libraries(Groot behavior_tree_editor )
+add_executable(Groot ./bt_editor/main.cpp  ${RESOURCE_FILES})
+target_link_libraries(Groot behavior_tree_editor )
 
 # # add_subdirectory(test)
 
@@ -218,8 +182,8 @@ add_subdirectory( QtNodeEditor )
     
 # endif()
 
-# INSTALL(TARGETS behavior_tree_editor LIBRARY DESTINATION ${GROOT_LIB_DESTINATION} )
-# INSTALL(TARGETS Groot RUNTIME DESTINATION ${GROOT_BIN_DESTINATION} )
+INSTALL(TARGETS behavior_tree_editor LIBRARY DESTINATION ${GROOT_LIB_DESTINATION} )
+INSTALL(TARGETS Groot RUNTIME DESTINATION ${GROOT_BIN_DESTINATION} )
 
 
 
