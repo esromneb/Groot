@@ -20,9 +20,9 @@ find_package(Qt5
   COMPONENTS
              Core
              Widgets
-             # Xml
-             # Gui
-             # Svg
+             Xml
+             Gui
+             Svg
              )
 
 
@@ -96,25 +96,25 @@ target_link_libraries(QtNodeEditor
   PUBLIC
     Qt5::Core
     Qt5::Widgets
-    # Qt5::Gui
-    # Qt5::Svg
-    # Qt5::Xml
+    Qt5::Gui
+    Qt5::Svg
+    Qt5::Xml
 )
 
-# target_compile_definitions(QtNodeEditor
-#   PUBLIC
-#     ${Qt5Widgets_DEFINITIONS}
-#   PRIVATE
-#     NODE_EDITOR_EXPORTS
-#     #NODE_DEBUG_DRAWING
-# )
+target_compile_definitions(QtNodeEditor
+  PUBLIC
+    ${Qt5Widgets_DEFINITIONS}
+  PRIVATE
+    NODE_EDITOR_EXPORTS
+    #NODE_DEBUG_DRAWING
+)
 
-# target_compile_options(QtNodeEditor
-#   PRIVATE
-#     $<$<CXX_COMPILER_ID:MSVC>:/W4 /wd4127 /EHsc>
-#     $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -std=c++11>
-#     $<$<CXX_COMPILER_ID:Clang>:-Wall -Wextra -std=c++11>
-# )
+target_compile_options(QtNodeEditor
+  PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /wd4127 /EHsc>
+    $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -std=c++11>
+    $<$<CXX_COMPILER_ID:Clang>:-Wall -Wextra -std=c++11>
+)
 
 # set_target_properties(QtNodeEditor
 #   PROPERTIES

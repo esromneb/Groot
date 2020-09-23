@@ -13,7 +13,7 @@
 #include "NodeDataModel.hpp"
 #include "TypeConverter.hpp"
 #include "Export.hpp"
-#include "QStringStdHash.hpp"
+// #include "QStringStdHash.hpp"
 #include "memory.hpp"
 
 namespace QtNodes
