@@ -4,7 +4,7 @@
 # include(/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5/Qt5Config.cmake)
 
 # SET(Qt5_DIR /mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5)
-SET(Qt5_DIR ../../qt5/qtbase/lib/cmake/Qt5)
+SET(Qt5_DIR ../qt5/qtbase/lib/cmake/Qt5)
 
 
 # set(Qt5Core_DIR /mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Core)

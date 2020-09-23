@@ -3,6 +3,13 @@ set(CMAKE_CXX_COMPILER "em++")
 
 cmake_minimum_required(VERSION 3.2)
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+
 project(groot)
 
 include(./qt_hack.cmake)
@@ -23,10 +30,10 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
-get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
-foreach(dir ${dirs})
-  message(STATUS "dir='${dir}'")
-endforeach()
+# get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+# foreach(dir ${dirs})
+#   message(STATUS "dir='${dir}'")
+# endforeach()
 
 
 #############################################################
@@ -52,11 +59,6 @@ if(catkin_FOUND)
 endif(catkin_FOUND)
 #############################################################
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
 
 add_definitions(${Qt5Widgets_DEFINITIONS} -DNODE_EDITOR_STATIC )
 set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
@@ -71,21 +73,21 @@ add_subdirectory( QtNodeEditor )
 # ##########################################
 # # FIX ME in the future....
 
-# set(BUILD_EXAMPLES   OFF CACHE BOOL "")
-# set(BUILD_UNIT_TESTS OFF CACHE BOOL "")
-# set(BUILD_TOOLS OFF CACHE BOOL "")
-# set(BUILD_TESTING OFF CACHE BOOL "")
-# set(CATKIN_ENABLE_TESTING OFF CACHE BOOL "")
+set(BUILD_EXAMPLES   OFF CACHE BOOL "")
+set(BUILD_UNIT_TESTS OFF CACHE BOOL "")
+set(BUILD_TOOLS OFF CACHE BOOL "")
+set(BUILD_TESTING OFF CACHE BOOL "")
+set(CATKIN_ENABLE_TESTING OFF CACHE BOOL "")
 
-# if(NOT catkin_FOUND)
-#     # look for BehaviorTree.CPP on the system
-#     find_package(BehaviorTree)
-#     if (NOT BehaviorTree_FOUND)
-#         # use git submodule only if you are not compiling with catkin
-#         add_subdirectory( depend/BehaviorTree.CPP )
-#         include_directories( depend/BehaviorTree.CPP/include )
-#     endif()
-# endif()
+if(NOT catkin_FOUND)
+    # look for BehaviorTree.CPP on the system
+    find_package(BehaviorTree)
+    if (NOT BehaviorTree_FOUND)
+        # use git submodule only if you are not compiling with catkin
+        add_subdirectory( depend/BehaviorTree.CPP )
+        include_directories( depend/BehaviorTree.CPP/include )
+    endif()
+endif()
 
 # ##########################################
 
@@ -161,26 +163,84 @@ target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
 add_executable(Groot ./bt_editor/main.cpp  ${RESOURCE_FILES})
 target_link_libraries(Groot behavior_tree_editor )
 
+set_property(TARGET Groot PROPERTY AUTOMOC ON)
+set_property(TARGET Groot PROPERTY AUTORRC ON)
+set_property(TARGET behavior_tree_editor PROPERTY AUTOMOC ON)
+set_property(TARGET behavior_tree_editor PROPERTY AUTORRC ON)
+# CMAKE_AUTORCC
+
+message(STATUS "AUTORCC_EXECUTABLE")
+message(STATUS ${AUTORCC_EXECUTABLE})
+
 # # add_subdirectory(test)
 
 # ######################################################
 # # INSTALL
-# if(catkin_FOUND)
-#     set( GROOT_LIB_DESTINATION   ${CATKIN_PACKAGE_LIB_DESTINATION} )
-#     set( GROOT_INC_DESTINATION   ${CATKIN_PACKAGE_INCLUDE_DESTINATION} )
-#     set( GROOT_BIN_DESTINATION   ${CATKIN_PACKAGE_BIN_DESTINATION} )
-# else()
-#     set( GROOT_LIB_DESTINATION   lib )
-#     set( GROOT_INC_DESTINATION   include )
-#     set( GROOT_BIN_DESTINATION   bin )
+if(catkin_FOUND)
+    set( GROOT_LIB_DESTINATION   ${CATKIN_PACKAGE_LIB_DESTINATION} )
+    set( GROOT_INC_DESTINATION   ${CATKIN_PACKAGE_INCLUDE_DESTINATION} )
+    set( GROOT_BIN_DESTINATION   ${CATKIN_PACKAGE_BIN_DESTINATION} )
+else()
+    set( GROOT_LIB_DESTINATION   lib )
+    set( GROOT_INC_DESTINATION   include )
+    set( GROOT_BIN_DESTINATION   bin )
     
-#     INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/groot_icon.png
-# 			 DESTINATION share/icons/hicolor/256x256)
+    INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/groot_icon.png
+			 DESTINATION share/icons/hicolor/256x256)
 			 
-# 	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/Groot.desktop
-# 			 DESTINATION share/applications)
+	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/Groot.desktop
+			 DESTINATION share/applications)
     
-# endif()
+endif()
+
+
+
+
+
+
+# Get all propreties that cmake supports
+execute_process(COMMAND cmake --help-property-list OUTPUT_VARIABLE CMAKE_PROPERTY_LIST)
+
+# Convert command output into a CMake list
+STRING(REGEX REPLACE ";" "\\\\;" CMAKE_PROPERTY_LIST "${CMAKE_PROPERTY_LIST}")
+STRING(REGEX REPLACE "\n" ";" CMAKE_PROPERTY_LIST "${CMAKE_PROPERTY_LIST}")
+
+function(print_properties)
+    message ("CMAKE_PROPERTY_LIST = ${CMAKE_PROPERTY_LIST}")
+endfunction(print_properties)
+
+function(print_target_properties tgt)
+    if(NOT TARGET ${tgt})
+      message("There is no target named '${tgt}'")
+      return()
+    endif()
+
+    foreach (prop ${CMAKE_PROPERTY_LIST})
+        string(REPLACE "<CONFIG>" "${CMAKE_BUILD_TYPE}" prop ${prop})
+    # Fix https://stackoverflow.com/questions/32197663/how-can-i-remove-the-the-location-property-may-not-be-read-from-target-error-i
+    if(prop STREQUAL "LOCATION" OR prop MATCHES "^LOCATION_" OR prop MATCHES "_LOCATION$")
+        continue()
+    endif()
+        # message ("Checking ${prop}")
+        get_property(propval TARGET ${tgt} PROPERTY ${prop} SET)
+        if (propval)
+            get_target_property(propval ${tgt} ${prop})
+            message ("${tgt} ${prop} = ${propval}")
+        endif()
+    endforeach(prop)
+endfunction(print_target_properties)
+
+
+print_target_properties(behavior_tree_editor)
+
+
+
+
+
+
+
+
+
 
 INSTALL(TARGETS behavior_tree_editor LIBRARY DESTINATION ${GROOT_LIB_DESTINATION} )
 INSTALL(TARGETS Groot RUNTIME DESTINATION ${GROOT_BIN_DESTINATION} )
