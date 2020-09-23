@@ -134,18 +134,18 @@ set(FORMS_UI
   ./bt_editor/custom_node_dialog.ui
   )
 
-find_package(ZMQ)
+# find_package(ZMQ)
 
-if( ZMQ_FOUND )
-    message(STATUS "ZeroMQ found.")
+# if( ZMQ_FOUND )
+    # message(STATUS "ZeroMQ found.")
     add_definitions( -DZMQ_FOUND )
 
     set(APP_CPPS ${APP_CPPS} ./bt_editor/sidepanel_monitor.cpp )
     set(FORMS_UI ${FORMS_UI} ./bt_editor/sidepanel_monitor.ui )
 
-else()
+# else()
     message(WARNING "ZeroMQ NOT found. Real-time monitoring disabled.")
-endif()
+# endif()
 
 QT5_WRAP_UI(FORMS_HEADERS ${FORMS_UI})
 
@@ -166,9 +166,9 @@ else()
     SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} behaviortree_cpp_v3 )
 endif()
 
-if( ZMQ_FOUND )
-    SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} zmq)
-endif()
+# if( ZMQ_FOUND )
+#     SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} zmq)
+# endif()
 
 target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
 
