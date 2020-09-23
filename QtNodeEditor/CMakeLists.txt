@@ -6,16 +6,38 @@ project(QtNodeEditor CXX)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
 
+# SET(Qt5_DIR /usr/lib/x86_64-linux-gnu/cmake/Qt5/)
+
+include(../qt_hack.cmake)
+
+# set(Qt5Core_DIR /mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Core)
+# set(Qt5_DIR /mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5)
+# set(QT_QMAKE_EXECUTABLE /mnt/overflow/work/wasm-groot/lib/qt5/qtbase/bin/qmake)
+
 
 # Find the QtWidgets library
-find_package(Qt5 COMPONENTS
+find_package(Qt5 
+  COMPONENTS
              Core
              Widgets
-             Xml
-             Gui
-             Svg)
+             # Xml
+             # Gui
+             # Svg
+             )
+
+
+# SET(Qt5Core_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Core")
+# SET(Qt5Widgets_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Widgets")
+# SET(Qt5Gui_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Gui")
+# SET(Qt5OpenGL_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5OpenGL")
+# SET(Qt5Xml_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Xml")
+# SET(Qt5Svg_DIR "/mnt/overflow/work/wasm-groot/lib/qt5/qtbase/lib/cmake/Qt5Svg")
 
 qt5_add_resources(RESOURCES ./resources/resources.qrc)
+
+
+
+
 
 # Unfortunately, as we have a split include/src, AUTOMOC doesn't work.
 # We'll have to manually specify some files
@@ -59,49 +81,60 @@ target_include_directories(QtNodeEditor
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/nodes/internal>
 )
 
+get_property(dirs TARGET QtNodeEditor PROPERTY INCLUDE_DIRECTORIES)
+foreach(dir ${dirs})
+  message(STATUS "dir='${dir}'")
+endforeach()
+
+
+message(STATUS "hi")
+
+message(STATUS "${QT_PLUGINS_imageformats}")
+
+
 target_link_libraries(QtNodeEditor
   PUBLIC
     Qt5::Core
     Qt5::Widgets
-    Qt5::Gui
-    Qt5::Svg
-    Qt5::Xml
+    # Qt5::Gui
+    # Qt5::Svg
+    # Qt5::Xml
 )
 
-target_compile_definitions(QtNodeEditor
-  PUBLIC
-    ${Qt5Widgets_DEFINITIONS}
-  PRIVATE
-    NODE_EDITOR_EXPORTS
-    #NODE_DEBUG_DRAWING
-)
+# target_compile_definitions(QtNodeEditor
+#   PUBLIC
+#     ${Qt5Widgets_DEFINITIONS}
+#   PRIVATE
+#     NODE_EDITOR_EXPORTS
+#     #NODE_DEBUG_DRAWING
+# )
 
-target_compile_options(QtNodeEditor
-  PRIVATE
-    $<$<CXX_COMPILER_ID:MSVC>:/W4 /wd4127 /EHsc>
-    $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -std=c++11>
-    $<$<CXX_COMPILER_ID:Clang>:-Wall -Wextra -std=c++11>
-)
+# target_compile_options(QtNodeEditor
+#   PRIVATE
+#     $<$<CXX_COMPILER_ID:MSVC>:/W4 /wd4127 /EHsc>
+#     $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -std=c++11>
+#     $<$<CXX_COMPILER_ID:Clang>:-Wall -Wextra -std=c++11>
+# )
 
-set_target_properties(QtNodeEditor
-  PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
+# set_target_properties(QtNodeEditor
+#   PROPERTIES
+#     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+#     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+#     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+# )
 
 ######
 # Moc
 ##
 
-file(GLOB_RECURSE HEADERS_TO_MOC include/nodes/internal/*.hpp)
+# file(GLOB_RECURSE HEADERS_TO_MOC include/nodes/internal/*.hpp)
 
-qt5_wrap_cpp(nodes_moc
-    ${HEADERS_TO_MOC}
-  TARGET QtNodeEditor
-  OPTIONS --no-notes # Don't display a note for the headers which don't produce a moc_*.cpp
-)
+# qt5_wrap_cpp(nodes_moc
+#     ${HEADERS_TO_MOC}
+#   TARGET QtNodeEditor
+#   OPTIONS --no-notes # Don't display a note for the headers which don't produce a moc_*.cpp
+# )
 
-target_sources(QtNodeEditor PRIVATE ${nodes_moc})
+# target_sources(QtNodeEditor PRIVATE ${nodes_moc})
 
 
