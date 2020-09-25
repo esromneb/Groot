@@ -20,7 +20,7 @@
 #include <QInputDialog>
 
 
-#include "editor_flowscene.h"
+// #include "editor_flowscene.h"
 #include "utils.h"
 #include "XML_utilities.hpp"
 

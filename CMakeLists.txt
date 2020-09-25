@@ -77,7 +77,7 @@ set(APP_CPPS
     ./bt_editor/models/SubtreeNodeModel.cpp
 
     ./bt_editor/mainwindow.cpp
-    ./bt_editor/editor_flowscene.cpp
+    # ./bt_editor/editor_flowscene.cpp
     ./bt_editor/utils.cpp
     ./bt_editor/bt_editor_base.cpp
     ./bt_editor/graphic_container.cpp
