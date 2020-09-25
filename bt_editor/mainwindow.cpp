@@ -63,12 +63,12 @@ GraphicContainer* MainWindow::createTab(const QString &name)
     GraphicContainer* ti = new GraphicContainer( _model_registry, this );
     _tab_info.insert( {name, ti } );
 
-    ti->scene()->setLayout( _current_layout );
+    // ti->scene()->setLayout( _current_layout );
 
-    ui->tabWidget->addTab( ti->view(), name );
+    // ui->tabWidget->addTab( ti->view(), name );
 
-    ti->scene()->createNodeAtPos( "Root", "Root", QPointF(-30,-30) );
-    ti->zoomHomeView();
+    // ti->scene()->createNodeAtPos( "Root", "Root", QPointF(-30,-30) );
+    // ti->zoomHomeView();
 
     //--------------------------------
 
@@ -181,17 +181,17 @@ void MainWindow::lockEditing(bool locked)
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-    auto view = dynamic_cast<QtNodes::FlowView*>(obj);
-    if( view )
-    {
-        qDebug() << "A " << event->type();
-        return false;
-    }
-    else
-    {
-        qDebug() << "B " << event->type();
-        return QMainWindow::eventFilter(obj,event);
-    }
+    // auto view = dynamic_cast<QtNodes::FlowView*>(obj);
+    // if( view )
+    // {
+    //     qDebug() << "A " << event->type();
+    //     return false;
+    // }
+    // else
+    // {
+    //     qDebug() << "B " << event->type();
+    //     return QMainWindow::eventFilter(obj,event);
+    // }
 }
 
 void MainWindow::resizeEvent(QResizeEvent *)
@@ -764,38 +764,38 @@ void MainWindow::updateCurrentMode()
 
 void MainWindow::refreshNodesLayout(QtNodes::PortLayout new_layout)
 {
-    if( new_layout != _current_layout)
-    {
-        QString icon_name = ( new_layout == QtNodes::PortLayout::Horizontal ) ?
-                                                                            ":/icons/BT-horizontal.png" :
-                                                                            ":/icons/BT-vertical.png";
-        QIcon icon;
-        icon.addFile(icon_name, QSize(), QIcon::Normal, QIcon::Off);
-        ui->toolButtonLayout->setIcon(icon);
-        ui->toolButtonLayout->update();
-    }
+    // if( new_layout != _current_layout)
+    // {
+    //     QString icon_name = ( new_layout == QtNodes::PortLayout::Horizontal ) ?
+    //                                                                         ":/icons/BT-horizontal.png" :
+    //                                                                         ":/icons/BT-vertical.png";
+    //     QIcon icon;
+    //     icon.addFile(icon_name, QSize(), QIcon::Normal, QIcon::Off);
+    //     ui->toolButtonLayout->setIcon(icon);
+    //     ui->toolButtonLayout->update();
+    // }
 
-    bool refreshed = false;
-    {
-        const QSignalBlocker blocker( currentTabInfo() );
-        for(auto& tab: _tab_info)
-        {
-            auto scene = tab.second->scene();
-            if( scene->layout() != new_layout )
-            {
-                auto abstract_tree = BuildTreeFromScene( scene );
-                scene->setLayout( new_layout );
-                NodeReorder( *scene, abstract_tree );
-                refreshed = true;
-            }
-        }
-        on_toolButtonCenterView_pressed();
-    }
-    _current_layout = new_layout;
-    if(refreshed)
-    {
-        onPushUndo();
-    }
+    // bool refreshed = false;
+    // {
+    //     const QSignalBlocker blocker( currentTabInfo() );
+    //     for(auto& tab: _tab_info)
+    //     {
+    //         auto scene = tab.second->scene();
+    //         if( scene->layout() != new_layout )
+    //         {
+    //             auto abstract_tree = BuildTreeFromScene( scene );
+    //             scene->setLayout( new_layout );
+    //             NodeReorder( *scene, abstract_tree );
+    //             refreshed = true;
+    //         }
+    //     }
+    //     on_toolButtonCenterView_pressed();
+    // }
+    // _current_layout = new_layout;
+    // if(refreshed)
+    // {
+    //     onPushUndo();
+    // }
 }
 
 void MainWindow::refreshExpandedSubtrees()

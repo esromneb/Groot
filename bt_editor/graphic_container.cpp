@@ -14,10 +14,10 @@
 
 using namespace QtNodes;
 
-GraphicContainer::GraphicContainer(std::shared_ptr<DataModelRegistry> model_registry,
+GraphicContainer::GraphicContainer(std::shared_ptr<void> model_registry,
                                    QWidget *parent) :
     QObject(parent),
-    _model_registry( std::move(model_registry) ),
+    
     _signal_was_blocked(true)
 {
     // _scene = new EditorFlowScene( _model_registry, parent );
