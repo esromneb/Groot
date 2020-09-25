@@ -7,7 +7,8 @@ set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
 
 
-include(../qt_hack.cmake)
+# include(../qt_hack.cmake)
+set(QT5PATH "../qt5/qtbase/lib/cmake/Qt5" CACHE STRING "Path for wasm compiled qt5")
 
 # Find the QtWidgets library
 find_package(Qt5 

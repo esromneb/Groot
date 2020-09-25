@@ -12,9 +12,14 @@ set(CMAKE_AUTORCC ON)
 
 project(groot)
 
-include(./qt_hack.cmake)
 
-set(Qt5rcc_DIR "/src/lib/qt5/qtbase/bin/")
+set(QT5PATH "../qt5/qtbase/lib/cmake/Qt5" CACHE STRING "Path for wasm compiled qt5")
+
+message(STATUS "Will use ${QT5PATH} for Qt5 path")
+SET(Qt5_DIR "${QT5PATH}")
+
+# include(./qt_hack.cmake)
+
 
 find_package(Qt5
  COMPONENTS  Core Widgets Gui OpenGL Xml Svg
