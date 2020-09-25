@@ -47,7 +47,11 @@ set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 #set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 #set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
-INCLUDE_DIRECTORIES( ${catkin_INCLUDE_DIRS} ./QtNodeEditor/include ./  )
+INCLUDE_DIRECTORIES( 
+  ${catkin_INCLUDE_DIRS}
+  # ./QtNodeEditor/include 
+  ./  
+  )
 
 add_subdirectory( QtNodeEditor )
 
@@ -73,8 +77,8 @@ endif()
 ##########################################
 
 set(APP_CPPS
-    ./bt_editor/models/BehaviorTreeNodeModel.cpp
-    ./bt_editor/models/SubtreeNodeModel.cpp
+    # ./bt_editor/models/BehaviorTreeNodeModel.cpp
+    # ./bt_editor/models/SubtreeNodeModel.cpp
 
     ./bt_editor/mainwindow.cpp
     # ./bt_editor/editor_flowscene.cpp
@@ -103,7 +107,7 @@ set(FORMS_UI
   # ./bt_editor/sidepanel_editor.ui
   # ./bt_editor/sidepanel_replay.ui
   ./bt_editor/startup_dialog.ui
-  ./bt_editor/custom_node_dialog.ui
+  # ./bt_editor/custom_node_dialog.ui
   )
 
 find_package(ZMQ)

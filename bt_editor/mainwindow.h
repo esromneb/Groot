@@ -16,7 +16,7 @@
 #include "XML_utilities.hpp"
 // #include "sidepanel_editor.h"
 // #include "sidepanel_replay.h"
-#include "models/SubtreeNodeModel.hpp"
+// #include "models/SubtreeNodeModel.hpp"
 
 // #ifdef ZMQ_FOUND
 // #include "sidepanel_monitor.h"
@@ -142,11 +142,10 @@ private:
 
     void refreshExpandedSubtrees();
 
-    void streamElementAttributes(QXmlStreamWriter &stream, const QDomElement &element) const;
 
     QString xmlDocumentToString(const QDomDocument &document) const;
 
-    void recursivelySaveNodeCanonically(QXmlStreamWriter &stream, const QDomNode &parent_node) const;
+    // void recursivelySaveNodeCanonically(QXmlStreamWriter &stream, const QDomNode &parent_node) const;
 
     struct SavedState
     {

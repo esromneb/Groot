@@ -6,8 +6,8 @@
 #include "nodes/Node"
 #include "nodes/DataModelRegistry"
 #include "nodes/internal/memory.hpp"
-#include "models/SubtreeNodeModel.hpp"
-#include "models/RootNodeModel.hpp"
+// #include "models/SubtreeNodeModel.hpp"
+// #include "models/RootNodeModel.hpp"
 
 using QtNodes::PortLayout;
 using QtNodes::DataModelRegistry;
@@ -16,71 +16,14 @@ using QtNodes::FlowScene;
 
 QtNodes::Node* findRoot(const QtNodes::FlowScene &scene)
 {
-    Node* root = nullptr;
-
-    for (auto& it: scene.nodes() )
-    {
-        Node* node = it.second.get();
-        if( node->nodeDataModel()->nPorts( PortType::In ) == 0 )
-        {
-            if( !root ) root = node;
-            else return nullptr;
-        }
-        else if( node->nodeState().connections( PortType::In, 0 ).empty() )
-        {
-            if( !root ) root = node;
-            else return nullptr;
-        }
-    }
-    return root;
+    return nullptr;
 }
 
 std::vector<Node*> getChildren(const QtNodes::FlowScene &scene,
                                const Node& parent_node,
                                bool ordered)
 {
-    std::vector<Node*> children;
-
-    if( parent_node.nodeDataModel()->nPorts(PortType::Out) == 0)
-    {
-        return children;
-    }
-
-    const auto& conn_out = parent_node.nodeState().connections(PortType::Out, 0);
-    children.reserve( conn_out.size() );
-
-    for( auto& it: conn_out)
-    {
-        auto child_node = it.second->getNode(PortType::In);
-        if( child_node )
-        {
-            children.push_back( child_node );
-        }
-    }
-
-    if( ordered && children.size() > 1)
-    {
-        if( scene.layout() == PortLayout::Vertical)
-        {
-            std::sort(children.begin(), children.end(),
-                      [&](const Node* a, const Node* b)
-            {
-                double pos_a = scene.getNodePosition( *a ).x() + scene.getNodeSize( *a ).width()*0.5;
-                double pos_b = scene.getNodePosition( *b ).x() + scene.getNodeSize( *b ).width()*0.5;
-                return pos_a < pos_b;
-            } );
-        }
-        else{
-            std::sort(children.begin(), children.end(),
-                      [&](const Node* a, const Node* b)
-            {
-                double pos_a = scene.getNodePosition( *a ).y() + scene.getNodeSize( *a ).height()*0.5;
-                double pos_b = scene.getNodePosition( *b ).y() + scene.getNodeSize( *b ).height()*0.5;
-                return pos_a < pos_b;
-            } );
-        }
-    }
-    return children;
+    return {};
 }
 
 
@@ -88,152 +31,7 @@ std::vector<Node*> getChildren(const QtNodes::FlowScene &scene,
 
 void RecursiveNodeReorder(AbsBehaviorTree& tree, PortLayout layout)
 {
-    std::function<void(unsigned, AbstractTreeNode*)> recursiveStep;
-
-    std::vector<QPointF> layer_cursor;
-    std::vector< std::vector<AbstractTreeNode*> > nodes_by_level(1);
-
-    const qreal LEVEL_SPACING = 80;
-    const qreal NODE_SPACING  = 40;
-
-    recursiveStep = [&](unsigned current_layer, AbstractTreeNode* node)
-    {
-        node->pos = layer_cursor[current_layer];
-        nodes_by_level[current_layer].push_back( node );
-
-        //------------------------------------
-        if( node->children_index.size() == 0 )
-        {
-            return;
-        }
-        qreal recommended_pos = NODE_SPACING * 0.5;
-
-        current_layer++;
-
-        if( layout == PortLayout::Vertical)
-        {
-            recommended_pos += (node->pos.x() + node->size.width()*0.5)  ;
-            for(int index: node->children_index)
-            {
-                const auto& child_node = tree.nodes()[index];
-                recommended_pos -=  (child_node.size.width() + NODE_SPACING) * 0.5;
-            }
-
-            if( current_layer >= layer_cursor.size())
-            {
-                QPointF new_cursor( recommended_pos,
-                                    node->pos.y() + LEVEL_SPACING );
-                layer_cursor.push_back( new_cursor );
-                nodes_by_level.push_back( std::vector<AbstractTreeNode*>() );
-            }
-            else{
-                recommended_pos = std::max( recommended_pos, layer_cursor[current_layer].x() );
-                layer_cursor[current_layer].setX(recommended_pos);
-            }
-        }//------------------------------------
-        else
-        {
-            recommended_pos += node->pos.y() + node->size.height()*0.5;
-            for(int index: node->children_index)
-            {
-                const auto& child_node = tree.nodes()[index];
-                recommended_pos -=  (child_node.size.height() + NODE_SPACING) * 0.5;
-            }
-
-            if( current_layer >= layer_cursor.size())
-            {
-                QPointF new_cursor( node->pos.x() + LEVEL_SPACING,
-                                    recommended_pos);
-                layer_cursor.push_back( new_cursor );
-                nodes_by_level.push_back( std::vector<AbstractTreeNode*>() );
-            }
-            else{
-                recommended_pos = std::max( recommended_pos, layer_cursor[current_layer].y() );
-                layer_cursor[current_layer].setY(recommended_pos);
-            }
-        }
-        //------------------------------------
-
-        auto initial_pos = layer_cursor[current_layer];
-
-        for(int index: node->children_index)
-        {
-            AbstractTreeNode* child_node = tree.node(index);
-
-            recursiveStep(current_layer, child_node);
-            if( layout == PortLayout::Vertical)
-            {
-                layer_cursor[current_layer]+= QPointF( child_node->size.width() + NODE_SPACING, 0 );
-            }
-            else{
-                layer_cursor[current_layer]+= QPointF( 0, child_node->size.height() + NODE_SPACING );
-            }
-        }
-
-        auto final_pos = layer_cursor[current_layer];
-
-        if( node->children_index.size() > 0)
-        {
-            auto first_child = tree.node( node->children_index.front() );
-            auto last_child = tree.node( node->children_index.back() );
-
-            initial_pos = QPointF( first_child->pos.x() + first_child->size.width()*0.5,
-                                   first_child->pos.y() + first_child->size.height()*0.5);
-
-            final_pos   = QPointF( last_child->pos.x() + last_child->size.width()*0.5,
-                                   last_child->pos.y() + last_child->size.height()*0.5);
-        }
-
-        // rebalance father
-        QPointF pos_offset(0,0);
-        if( layout == PortLayout::Vertical)
-        {
-            double new_x = (final_pos.x() + initial_pos.x()) * 0.5 - node->size.width()*0.5;
-            double diff = node->pos.x() - new_x;
-            pos_offset = QPointF( - diff, 0 );
-        }
-        else{
-            double new_y = (final_pos.y() + initial_pos.y()) * 0.5 - node->size.height()*0.5;
-            double diff = node->pos.y() - new_y;
-            pos_offset = QPointF( 0, - diff );
-        }
-
-        node->pos += pos_offset;
-        layer_cursor[current_layer -1 ] += pos_offset;
-    };
-
-    auto root_node = tree.rootNode();
-    layer_cursor.push_back(QPointF( -root_node->size.width()*0.5,
-                                    -root_node->size.height()*0.5));
-    recursiveStep(0, root_node);
-
-    if( layout == PortLayout::Vertical)
-    {
-        qreal offset = root_node->size.height() + LEVEL_SPACING;
-        for(unsigned i=1; i< nodes_by_level.size(); i++ )
-        {
-            qreal max_height = 0;
-            for(auto node: nodes_by_level[i])
-            {
-                max_height = std::max( max_height, node->size.height() );
-                node->pos.setY( offset );
-            }
-            offset += max_height + LEVEL_SPACING;
-        }
-    }
-    else{
-        qreal offset = root_node->size.width() + LEVEL_SPACING;
-        for(unsigned i=1; i< nodes_by_level.size(); i++ )
-        {
-            qreal max_width = 0;
-            for(auto node: nodes_by_level[i])
-            {
-                max_width = std::max( max_width, node->size.width() );
-                node->pos.setX( offset );
-            }
-            offset += max_width + LEVEL_SPACING;
-        }
-    }
+  
 }
 
 void NodeReorder(QtNodes::FlowScene &scene, AbsBehaviorTree & tree)

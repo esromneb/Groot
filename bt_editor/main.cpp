@@ -1,6 +1,7 @@
 #include <QCommandLineParser>
 #include <QApplication>
 #include <QDialog>
+#include <QFile>
 #include <nodes/NodeStyle>
 #include <nodes/FlowViewStyle>
 #include <nodes/ConnectionStyle>
@@ -9,7 +10,6 @@
 #include "mainwindow.h"
 #include "XML_utilities.hpp"
 #include "startup_dialog.h"
-#include "models/RootNodeModel.hpp"
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowViewStyle;
