@@ -17,7 +17,7 @@ using QtNodes::NodeStyle;
 using QtNodes::ConnectionStyle;
 
 int
-main(int argc, char *argv[])
+main2(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     app.setApplicationName("Groot");

@@ -30,8 +30,8 @@ find_package(Qt5
 # set(AM_QT_RCC_EXECUTABLE "/usr/lib/qt5/bin/rcc")
 # set(AM_QT_RCC_EXECUTABLE "/src/lib/qt5/qtbase/bin/rcc")
 
-message(STATUS "RCCCCCCCCCCCCCCC")
-message(STATUS "${Qt5Core_RCC_EXECUTABLE}")
+# message(STATUS "RCCCCCCCCCCCCCCC")
+# message(STATUS "${Qt5Core_RCC_EXECUTABLE}")
 
 
 
@@ -75,7 +75,7 @@ endif(catkin_FOUND)
 
 
 add_definitions(${Qt5Widgets_DEFINITIONS} -DNODE_EDITOR_STATIC )
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}  -fPIC")
 
 # set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 # set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
@@ -93,15 +93,15 @@ set(BUILD_TOOLS OFF CACHE BOOL "")
 set(BUILD_TESTING OFF CACHE BOOL "")
 set(CATKIN_ENABLE_TESTING OFF CACHE BOOL "")
 
-if(NOT catkin_FOUND)
+# if(NOT catkin_FOUND)
     # look for BehaviorTree.CPP on the system
-    find_package(BehaviorTree)
-    if (NOT BehaviorTree_FOUND)
+    # find_package(BehaviorTree)
+    # if (NOT BehaviorTree_FOUND)
         # use git submodule only if you are not compiling with catkin
         add_subdirectory( depend/BehaviorTree.CPP )
         include_directories( depend/BehaviorTree.CPP/include )
-    endif()
-endif()
+    # endif()
+# endif()
 
 # ##########################################
 
@@ -178,8 +178,10 @@ endif()
 target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
 
 
-add_executable(Groot ./bt_editor/main.cpp  ${RESOURCE_FILES})
-target_link_libraries(Groot behavior_tree_editor )
+add_library(Groot ./bt_editor/main.cpp  ${RESOURCE_FILES})
+# set_property(TARGET Groot PROPERTY POSITION_INDEPENDENT_CODE ON)
+
+target_link_libraries(Groot behavior_tree_editor)
 
 set_property(TARGET Groot PROPERTY AUTOMOC ON)
 set_property(TARGET Groot PROPERTY AUTORRC ON)

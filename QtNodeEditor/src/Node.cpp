@@ -23,6 +23,10 @@ using QtNodes::NodeGraphicsObject;
 using QtNodes::PortIndex;
 using QtNodes::PortType;
 
+void longFunction(void) {
+    std::cout << "from node.cpp" << "\n";
+}
+
 Node::
 Node(std::unique_ptr<NodeDataModel> && dataModel)
   : _uid(QUuid::createUuid())
