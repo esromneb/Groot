@@ -46,50 +46,50 @@ main(int argc, char *argv[])
     QString style( styleFile.readAll() );
     app.setStyleSheet( style );
 
-    if( parser.isSet(test_option) )
-    {
+    // if( parser.isSet(test_option) )
+    // {
         MainWindow win( GraphicMode::EDITOR );
         win.setWindowTitle("Groot");
         win.show();
         win.loadFromXML( ":/crossdoor_with_subtree.xml" );
         return app.exec();
-    }
-    else{
-        auto mode = GraphicMode::EDITOR;
+    // }
+    // else{
+    //     auto mode = GraphicMode::EDITOR;
 
-        if( parser.isSet(mode_option) )
-        {
-            QString opt_mode = parser.value(mode_option);
-            if( opt_mode == "editor")
-            {
-                mode = GraphicMode::EDITOR;
-            }
-            else if( opt_mode == "monitor")
-            {
-                mode = GraphicMode::MONITOR;
-            }
-            else if( opt_mode == "replay")
-            {
-                mode = GraphicMode::REPLAY;
-            }
-            else{
-                std::cout << "wrong mode passed to --mode. Use on of these: editor / monitor /replay"
-                          << std::endl;
-                return 0;
-            }
-        }
-        else{
-            StartupDialog dialog;
-            dialog.setWindowFlags( Qt::FramelessWindowHint );
-            if(dialog.exec() != QDialog::Accepted)
-            {
-                return 0;
-            }
-            mode = dialog.getGraphicMode();
-        }
+    //     if( parser.isSet(mode_option) )
+    //     {
+    //         QString opt_mode = parser.value(mode_option);
+    //         if( opt_mode == "editor")
+    //         {
+    //             mode = GraphicMode::EDITOR;
+    //         }
+    //         else if( opt_mode == "monitor")
+    //         {
+    //             mode = GraphicMode::MONITOR;
+    //         }
+    //         else if( opt_mode == "replay")
+    //         {
+    //             mode = GraphicMode::REPLAY;
+    //         }
+    //         else{
+    //             std::cout << "wrong mode passed to --mode. Use on of these: editor / monitor /replay"
+    //                       << std::endl;
+    //             return 0;
+    //         }
+    //     }
+    //     else{
+    //         StartupDialog dialog;
+    //         dialog.setWindowFlags( Qt::FramelessWindowHint );
+    //         if(dialog.exec() != QDialog::Accepted)
+    //         {
+    //             return 0;
+    //         }
+    //         mode = dialog.getGraphicMode();
+    //     }
 
-        MainWindow win( mode );
-        win.show();
-        return app.exec();
-    }
+    //     MainWindow win( mode );
+    //     win.show();
+    //     return app.exec();
+    // }
 }

@@ -253,50 +253,50 @@ std::set<QtNodes::Node*> GraphicContainer::getSubtreeNodesRecursively(Node &root
 
 void GraphicContainer::createSubtree(Node &root_node, QString subtree_name )
 {
-    bool ok = false;
-    if( subtree_name.isEmpty() )
-    {
-        subtree_name = QInputDialog::getText (
-                    nullptr, tr ("SubTree Name"),
-                    tr ("Insert the name of the Custom SubTree"),
-                    QLineEdit::Normal, "", &ok);
-        if (!ok)
-        {
-            return;
-        }
-    }
+    // bool ok = false;
+    // if( subtree_name.isEmpty() )
+    // {
+    //     subtree_name = QInputDialog::getText (
+    //                 nullptr, tr ("SubTree Name"),
+    //                 tr ("Insert the name of the Custom SubTree"),
+    //                 QLineEdit::Normal, "", &ok);
+    //     if (!ok)
+    //     {
+    //         return;
+    //     }
+    // }
 
-    auto main_win = dynamic_cast<MainWindow*>( parent() );
+    // auto main_win = dynamic_cast<MainWindow*>( parent() );
 
-    if( main_win->getTabByName(subtree_name) != nullptr ||
-            _model_registry->registeredModelsByCategory("SubTree").count( subtree_name ))
-    {
-        QMessageBox::warning( nullptr, "SubTree already exists",
-                              tr("There is already a SubTree called [%1].\n"
-                                 "Use another name.").arg(subtree_name),
-                              QMessageBox::Ok);
-        return;
-    }
+    // if( main_win->getTabByName(subtree_name) != nullptr ||
+    //         _model_registry->registeredModelsByCategory("SubTree").count( subtree_name ))
+    // {
+    //     QMessageBox::warning( nullptr, "SubTree already exists",
+    //                           tr("There is already a SubTree called [%1].\n"
+    //                              "Use another name.").arg(subtree_name),
+    //                           QMessageBox::Ok);
+    //     return;
+    // }
 
-    addNewModel( { NodeType::SUBTREE, subtree_name, {}} );
-    QApplication::processEvents();
+    // addNewModel( { NodeType::SUBTREE, subtree_name, {}} );
+    // QApplication::processEvents();
 
-    auto sub_tree = BuildTreeFromScene(_scene, &root_node);
+    // auto sub_tree = BuildTreeFromScene(_scene, &root_node);
 
-    for(auto& abs_node: sub_tree.nodes())
-    {
-        if( &abs_node == sub_tree.rootNode() )
-        {
-            continue;
-        }
-        _scene->removeNode( *abs_node.graphic_node );
-        abs_node.graphic_node = nullptr;
-    }
-    substituteNode( sub_tree.rootNode()->graphic_node, subtree_name);
+    // for(auto& abs_node: sub_tree.nodes())
+    // {
+    //     if( &abs_node == sub_tree.rootNode() )
+    //     {
+    //         continue;
+    //     }
+    //     _scene->removeNode( *abs_node.graphic_node );
+    //     abs_node.graphic_node = nullptr;
+    // }
+    // substituteNode( sub_tree.rootNode()->graphic_node, subtree_name);
 
-    nodeReorder();
+    // nodeReorder();
 
-    emit requestSubTreeCreate( sub_tree, subtree_name );
+    // emit requestSubTreeCreate( sub_tree, subtree_name );
 }
 
 void GraphicContainer::onNodeDoubleClicked(Node &root_node)
@@ -601,46 +601,46 @@ void GraphicContainer::recursiveLoadStep(QPointF& cursor,
                                          AbstractTreeNode* abs_node,
                                          Node* parent_node, int nest_level)
 {
-    Node& new_node = _scene->createNodeAtPos( abs_node->model.registration_ID,
-                                              abs_node->instance_name,
-                                              cursor);
-    BehaviorTreeDataModel* bt_node = dynamic_cast<BehaviorTreeDataModel*>( new_node.nodeDataModel() );
+    // Node& new_node = _scene->createNodeAtPos( abs_node->model.registration_ID,
+    //                                           abs_node->instance_name,
+    //                                           cursor);
+    // BehaviorTreeDataModel* bt_node = dynamic_cast<BehaviorTreeDataModel*>( new_node.nodeDataModel() );
 
-    for (auto& port_it: abs_node->ports_mapping)
-    {
-        bt_node->setPortMapping( port_it.first, port_it.second );
-    }
-    bt_node->initWidget();
+    // for (auto& port_it: abs_node->ports_mapping)
+    // {
+    //     bt_node->setPortMapping( port_it.first, port_it.second );
+    // }
+    // bt_node->initWidget();
 
-    new_node.nodeGeometry().recalculateSize();
+    // new_node.nodeGeometry().recalculateSize();
 
-    abs_node->pos = cursor;
-    abs_node->size = _scene->getNodeSize( new_node );
-    abs_node->graphic_node = &new_node;
+    // abs_node->pos = cursor;
+    // abs_node->size = _scene->getNodeSize( new_node );
+    // abs_node->graphic_node = &new_node;
 
-    // Special case for node Subtree. Expand if necessary
-    if( abs_node->model.type == NodeType::SUBTREE &&
-            abs_node->children_index.size() == 1 )
-    {
-        if( auto subtree_node = dynamic_cast<SubtreeNodeModel*>( bt_node ) )
-        {
-            subtree_node->setExpanded(true);
-            new_node.nodeState().getEntries(PortType::Out).resize(1);
-            subtree_node->expandButton()->setHidden( true );
-            emit subtree_node->updateNodeSize();
-        }
-    }
+    // // Special case for node Subtree. Expand if necessary
+    // if( abs_node->model.type == NodeType::SUBTREE &&
+    //         abs_node->children_index.size() == 1 )
+    // {
+    //     if( auto subtree_node = dynamic_cast<SubtreeNodeModel*>( bt_node ) )
+    //     {
+    //         subtree_node->setExpanded(true);
+    //         new_node.nodeState().getEntries(PortType::Out).resize(1);
+    //         subtree_node->expandButton()->setHidden( true );
+    //         emit subtree_node->updateNodeSize();
+    //     }
+    // }
 
-    _scene->createConnection( *abs_node->graphic_node, 0,
-                              *parent_node, 0 );
+    // _scene->createConnection( *abs_node->graphic_node, 0,
+    //                           *parent_node, 0 );
 
-    for ( int index: abs_node->children_index)
-    {
-        cursor.setX( cursor.x() + abs_node->size.width() );
-        cursor.setY( cursor.y() + abs_node->size.height() );
-        AbstractTreeNode* child = tree.node(index);
-        recursiveLoadStep(cursor, tree, child, abs_node->graphic_node, nest_level+1 );
-    }
+    // for ( int index: abs_node->children_index)
+    // {
+    //     cursor.setX( cursor.x() + abs_node->size.width() );
+    //     cursor.setY( cursor.y() + abs_node->size.height() );
+    //     AbstractTreeNode* child = tree.node(index);
+    //     recursiveLoadStep(cursor, tree, child, abs_node->graphic_node, nest_level+1 );
+    // }
 }
 
 
