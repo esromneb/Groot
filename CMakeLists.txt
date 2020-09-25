@@ -111,16 +111,16 @@ find_package(ZMQ)
 message(STATUS "${ZMQ}")
 message(STATUS "${ZMQ_LIBRARY}")
 
-if( ZMQ_FOUND )
-    message(STATUS "ZeroMQ found.")
-    add_definitions( -DZMQ_FOUND )
+# if( ZMQ_FOUND )
+    # message(STATUS "ZeroMQ found.")
+    # add_definitions( -DZMQ_FOUND )
 
-    set(APP_CPPS ${APP_CPPS} ./bt_editor/sidepanel_monitor.cpp )
-    set(FORMS_UI ${FORMS_UI} ./bt_editor/sidepanel_monitor.ui )
+    # set(APP_CPPS ${APP_CPPS} ./bt_editor/sidepanel_monitor.cpp )
+    # set(FORMS_UI ${FORMS_UI} ./bt_editor/sidepanel_monitor.ui )
 
-else()
-    message(WARNING "ZeroMQ NOT found. Real-time monitoring disabled.")
-endif()
+# else()
+    # message(WARNING "ZeroMQ NOT found. Real-time monitoring disabled.")
+# endif()
 
 QT5_WRAP_UI(FORMS_HEADERS ${FORMS_UI})
 
