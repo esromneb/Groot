@@ -11,9 +11,9 @@
 
 #include <nodes/Node>
 
-EditorFlowScene::EditorFlowScene(std::shared_ptr<QtNodes::DataModelRegistry> registry,
+EditorFlowScene::EditorFlowScene(std::shared_ptr<void> registry,
                                  QObject * parent):
-    FlowScene(registry,parent),
+    // FlowScene(registry,parent),
     _editor_locked(false)
 {
 

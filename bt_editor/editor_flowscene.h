@@ -8,7 +8,7 @@
 class EditorFlowScene : public QtNodes::FlowScene
 {
 public:
-    EditorFlowScene(std::shared_ptr<QtNodes::DataModelRegistry> registry,
+    EditorFlowScene(std::shared_ptr<void> registry,
                     QObject * parent = Q_NULLPTR);
 
     bool isLocked() const { return _editor_locked; }
