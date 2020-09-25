@@ -83,9 +83,9 @@ set(APP_CPPS
     ./bt_editor/graphic_container.cpp
     ./bt_editor/startup_dialog.cpp
 
-    ./bt_editor/sidepanel_editor.cpp
-    ./bt_editor/sidepanel_replay.cpp
-    ./bt_editor/custom_node_dialog.cpp
+    # ./bt_editor/sidepanel_editor.cpp
+    # ./bt_editor/sidepanel_replay.cpp
+    # ./bt_editor/custom_node_dialog.cpp
 
     ./bt_editor/XML_utilities.cpp
     )
@@ -100,8 +100,8 @@ set(FORMS_UI
   ./bt_editor/about_dialog.ui
   ./bt_editor/mainwindow.ui
   ./bt_editor/action_form.ui
-  ./bt_editor/sidepanel_editor.ui
-  ./bt_editor/sidepanel_replay.ui
+  # ./bt_editor/sidepanel_editor.ui
+  # ./bt_editor/sidepanel_replay.ui
   ./bt_editor/startup_dialog.ui
   ./bt_editor/custom_node_dialog.ui
   )
