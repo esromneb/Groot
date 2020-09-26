@@ -154,14 +154,14 @@ set(FORMS_UI
 
 QT5_WRAP_UI(FORMS_HEADERS ${FORMS_UI})
 
-add_library(behavior_tree_editor
+add_library(behavior_tree_editor STATIC
     ${APP_CPPS}
     ${FORMS_HEADERS}
 )
 
 target_compile_options(behavior_tree_editor
   PUBLIC
-    -Wall -Wextra -std=c++11 -fPIC
+    -Wall -Wextra -std=c++11 -fPIC -s RELOCATABLE=1
 )
 
 
@@ -169,23 +169,11 @@ target_compile_options(behavior_tree_editor
 qt5_add_resources(RESOURCES ./bt_editor/resources/icons.qrc)
 # qt5_add_binary_resources(behavior_tree_editor bt_editor/resources)
 
-# SET(GROOT_DEPENDENCIES QtNodeEditor )
-# SET(GROOT_DEPENDENCIES GrootDeps )
 
-if( catkin_FOUND )
-    SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} ${catkin_LIBRARIES} )
-else()
-    SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} behaviortree_cpp_v3 )
-endif()
-
-# if( ZMQ_FOUND )
-#     SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} zmq)
-# endif()
-
-target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
+# target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
 
 target_link_libraries(behavior_tree_editor
-  # PUBLIC
+  PUBLIC
     Qt5::Core
     Qt5::Widgets
     Qt5::Gui
