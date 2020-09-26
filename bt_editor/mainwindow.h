@@ -14,13 +14,13 @@
 
 #include "graphic_container.h"
 #include "XML_utilities.hpp"
-// #include "sidepanel_editor.h"
-// #include "sidepanel_replay.h"
+#include "sidepanel_editor.h"
+#include "sidepanel_replay.h"
 #include "models/SubtreeNodeModel.hpp"
 
-// #ifdef ZMQ_FOUND
-// #include "sidepanel_monitor.h"
-// #endif
+#ifdef ZMQ_FOUND
+#include "sidepanel_monitor.h"
+#endif
 
 namespace Ui {
 class MainWindow;
@@ -34,7 +34,7 @@ class Node;
 
 class MainWindow : public QMainWindow
 {
-    // Q_OBJECT
+    Q_OBJECT
 
     enum SubtreeExpandOption{ SUBTREE_EXPAND,
                               SUBTREE_COLLAPSE,
@@ -184,11 +184,11 @@ private:
 
     QString _main_tree;
 
-    // SidepanelEditor* _editor_widget;
-    void* _replay_widget;
-// #ifdef ZMQ_FOUND
-//     SidepanelMonitor* _monitor_widget;
-// #endif
+    SidepanelEditor* _editor_widget;
+    SidepanelReplay* _replay_widget;
+#ifdef ZMQ_FOUND
+    SidepanelMonitor* _monitor_widget;
+#endif
     
     MainWindow::SavedState saveCurrentState();
     void clearUndoStacks();

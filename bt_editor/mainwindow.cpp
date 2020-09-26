@@ -20,7 +20,7 @@
 #include <QInputDialog>
 
 
-// #include "editor_flowscene.h"
+#include "editor_flowscene.h"
 #include "utils.h"
 #include "XML_utilities.hpp"
 
@@ -63,12 +63,12 @@ GraphicContainer* MainWindow::createTab(const QString &name)
     GraphicContainer* ti = new GraphicContainer( _model_registry, this );
     _tab_info.insert( {name, ti } );
 
-    // ti->scene()->setLayout( _current_layout );
+    ti->scene()->setLayout( _current_layout );
 
-    // ui->tabWidget->addTab( ti->view(), name );
+    ui->tabWidget->addTab( ti->view(), name );
 
-    // ti->scene()->createNodeAtPos( "Root", "Root", QPointF(-30,-30) );
-    // ti->zoomHomeView();
+    ti->scene()->createNodeAtPos( "Root", "Root", QPointF(-30,-30) );
+    ti->zoomHomeView();
 
     //--------------------------------
 
@@ -181,17 +181,17 @@ void MainWindow::lockEditing(bool locked)
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-    // auto view = dynamic_cast<QtNodes::FlowView*>(obj);
-    // if( view )
-    // {
-    //     qDebug() << "A " << event->type();
-    //     return false;
-    // }
-    // else
-    // {
-    //     qDebug() << "B " << event->type();
-    //     return QMainWindow::eventFilter(obj,event);
-    // }
+    auto view = dynamic_cast<QtNodes::FlowView*>(obj);
+    if( view )
+    {
+        qDebug() << "A " << event->type();
+        return false;
+    }
+    else
+    {
+        qDebug() << "B " << event->type();
+        return QMainWindow::eventFilter(obj,event);
+    }
 }
 
 void MainWindow::resizeEvent(QResizeEvent *)
@@ -764,38 +764,38 @@ void MainWindow::updateCurrentMode()
 
 void MainWindow::refreshNodesLayout(QtNodes::PortLayout new_layout)
 {
-    // if( new_layout != _current_layout)
-    // {
-    //     QString icon_name = ( new_layout == QtNodes::PortLayout::Horizontal ) ?
-    //                                                                         ":/icons/BT-horizontal.png" :
-    //                                                                         ":/icons/BT-vertical.png";
-    //     QIcon icon;
-    //     icon.addFile(icon_name, QSize(), QIcon::Normal, QIcon::Off);
-    //     ui->toolButtonLayout->setIcon(icon);
-    //     ui->toolButtonLayout->update();
-    // }
+    if( new_layout != _current_layout)
+    {
+        QString icon_name = ( new_layout == QtNodes::PortLayout::Horizontal ) ?
+                                                                            ":/icons/BT-horizontal.png" :
+                                                                            ":/icons/BT-vertical.png";
+        QIcon icon;
+        icon.addFile(icon_name, QSize(), QIcon::Normal, QIcon::Off);
+        ui->toolButtonLayout->setIcon(icon);
+        ui->toolButtonLayout->update();
+    }
 
-    // bool refreshed = false;
-    // {
-    //     const QSignalBlocker blocker( currentTabInfo() );
-    //     for(auto& tab: _tab_info)
-    //     {
-    //         auto scene = tab.second->scene();
-    //         if( scene->layout() != new_layout )
-    //         {
-    //             auto abstract_tree = BuildTreeFromScene( scene );
-    //             scene->setLayout( new_layout );
-    //             NodeReorder( *scene, abstract_tree );
-    //             refreshed = true;
-    //         }
-    //     }
-    //     on_toolButtonCenterView_pressed();
-    // }
-    // _current_layout = new_layout;
-    // if(refreshed)
-    // {
-    //     onPushUndo();
-    // }
+    bool refreshed = false;
+    {
+        const QSignalBlocker blocker( currentTabInfo() );
+        for(auto& tab: _tab_info)
+        {
+            auto scene = tab.second->scene();
+            if( scene->layout() != new_layout )
+            {
+                auto abstract_tree = BuildTreeFromScene( scene );
+                scene->setLayout( new_layout );
+                NodeReorder( *scene, abstract_tree );
+                refreshed = true;
+            }
+        }
+        on_toolButtonCenterView_pressed();
+    }
+    _current_layout = new_layout;
+    if(refreshed)
+    {
+        onPushUndo();
+    }
 }
 
 void MainWindow::refreshExpandedSubtrees()
@@ -853,11 +853,11 @@ void MainWindow::on_actionEditor_mode_triggered()
     _current_mode = GraphicMode::EDITOR;
     updateCurrentMode();
 
-// #ifdef ZMQ_FOUND
-//     _monitor_widget->clear();
-// #endif
+#ifdef ZMQ_FOUND
+    _monitor_widget->clear();
+#endif
 
-//     _replay_widget->clear();
+    _replay_widget->clear();
 }
 
 void MainWindow::on_actionMonitor_mode_triggered()
@@ -927,118 +927,118 @@ void MainWindow::onChangeNodesStatus(const QString& bt_name,
 
 void MainWindow::onTabCustomContextMenuRequested(const QPoint &pos)
 {
-    // int tab_index = ui->tabWidget->tabBar()->tabAt( pos );
+    int tab_index = ui->tabWidget->tabBar()->tabAt( pos );
 
-    // QMenu menu(this);
-    // QAction* rename   = menu.addAction("Rename");
+    QMenu menu(this);
+    QAction* rename   = menu.addAction("Rename");
 
-    // connect( rename, &QAction::triggered, this, [this, tab_index]()
-    //         {
-    //             onTabRenameRequested(tab_index);
-    //         } );
+    connect( rename, &QAction::triggered, this, [this, tab_index]()
+            {
+                onTabRenameRequested(tab_index);
+            } );
 
-    // QAction* set_main   = menu.addAction("Set as main tree");
+    QAction* set_main   = menu.addAction("Set as main tree");
 
-    // connect( set_main, &QAction::triggered, this, [this, tab_index]()
-    //         {
-    //             onTabSetMainTree(tab_index);
-    //         } );
+    connect( set_main, &QAction::triggered, this, [this, tab_index]()
+            {
+                onTabSetMainTree(tab_index);
+            } );
 
-    // QPoint globalPos = ui->tabWidget->tabBar()->mapToGlobal(pos);
-    // menu.exec(globalPos);
+    QPoint globalPos = ui->tabWidget->tabBar()->mapToGlobal(pos);
+    menu.exec(globalPos);
 }
 
 void MainWindow::onTabRenameRequested(int tab_index, QString new_name)
 {
-    // QString old_name = this->ui->tabWidget->tabText(tab_index);
+    QString old_name = this->ui->tabWidget->tabText(tab_index);
 
-    // if( new_name.isEmpty())
-    // {
-    //     bool ok = false;
-    //     new_name = QInputDialog::getText (
-    //         this, tr ("Change name"),
-    //         tr ("Insert the new name of this BehaviorTree"),
-    //         QLineEdit::Normal, old_name, &ok);
-    //     if (!ok)
-    //     {
-    //         return;
-    //     }
-    // }
+    if( new_name.isEmpty())
+    {
+        bool ok = false;
+        new_name = QInputDialog::getText (
+            this, tr ("Change name"),
+            tr ("Insert the new name of this BehaviorTree"),
+            QLineEdit::Normal, old_name, &ok);
+        if (!ok)
+        {
+            return;
+        }
+    }
 
-    // if( new_name == old_name)
-    // {
-    //     return;
-    // }
-    // if( getTabByName(new_name) )
-    // {
-    //     QMessageBox::warning( this, "Tab name already is use",
-    //                          tr("There is already a BehaviorTree called [%1].\n"
-    //                             "Use another name.").arg(new_name),
-    //                          QMessageBox::Ok);
-    //     return;
-    // }
+    if( new_name == old_name)
+    {
+        return;
+    }
+    if( getTabByName(new_name) )
+    {
+        QMessageBox::warning( this, "Tab name already is use",
+                             tr("There is already a BehaviorTree called [%1].\n"
+                                "Use another name.").arg(new_name),
+                             QMessageBox::Ok);
+        return;
+    }
 
-    // ui->tabWidget->setTabText (tab_index, new_name);
-    // auto it = _tab_info.find(old_name);
-    // auto container = it->second;
-    // _tab_info.insert( {new_name, container} );
-    // _tab_info.erase( it );
-    // if( _main_tree == old_name )
-    // {
-    //     _main_tree = new_name;
-    // }
+    ui->tabWidget->setTabText (tab_index, new_name);
+    auto it = _tab_info.find(old_name);
+    auto container = it->second;
+    _tab_info.insert( {new_name, container} );
+    _tab_info.erase( it );
+    if( _main_tree == old_name )
+    {
+        _main_tree = new_name;
+    }
 
-    // // if a subtree SUBTREE already
-    // if( _model_registry->registeredModelsByCategory("SubTree").count( old_name ) != 0 )
-    // {
-    //     _model_registry->unregisterModel(old_name);
-    //     _treenode_models.erase(old_name);
-    //     NodeModel model = { NodeType::SUBTREE, new_name, {}};
-    //     onAddToModelRegistry( model );
-    //     _treenode_models.insert( { new_name, model} );
-    //     _editor_widget->updateTreeView();
-    //     this->onTreeNodeEdited(old_name, new_name);
-    // }
+    // if a subtree SUBTREE already
+    if( _model_registry->registeredModelsByCategory("SubTree").count( old_name ) != 0 )
+    {
+        _model_registry->unregisterModel(old_name);
+        _treenode_models.erase(old_name);
+        NodeModel model = { NodeType::SUBTREE, new_name, {}};
+        onAddToModelRegistry( model );
+        _treenode_models.insert( { new_name, model} );
+        _editor_widget->updateTreeView();
+        this->onTreeNodeEdited(old_name, new_name);
+    }
 
-    // // TODO: this is a work around until we find a better solution
-    // clearUndoStacks();
+    // TODO: this is a work around until we find a better solution
+    clearUndoStacks();
 }
 
 
 void MainWindow::onTabSetMainTree(int tab_index)
 {
-    // for (int i=0; i<ui->tabWidget->count(); i++ )
-    // {
-    //     if( i == tab_index )
-    //     {
-    //         ui->tabWidget->tabBar()->setTabIcon(i, QIcon(":/icons/svg/star.svg") );
-    //         _main_tree = ui->tabWidget->tabBar()->tabText(i);
-    //     }
-    //     else{
-    //         ui->tabWidget->tabBar()->setTabIcon( i, QIcon());
-    //     }
-    // }
+    for (int i=0; i<ui->tabWidget->count(); i++ )
+    {
+        if( i == tab_index )
+        {
+            ui->tabWidget->tabBar()->setTabIcon(i, QIcon(":/icons/svg/star.svg") );
+            _main_tree = ui->tabWidget->tabBar()->tabText(i);
+        }
+        else{
+            ui->tabWidget->tabBar()->setTabIcon( i, QIcon());
+        }
+    }
 }
 
 
 void MainWindow::clearTreeModels()
 {
-    // _treenode_models = BuiltinNodeModels();
+    _treenode_models = BuiltinNodeModels();
 
-    // std::list<QString> ID_to_delete;
-    // for(const auto& it: _model_registry->registeredModelCreators() )
-    // {
-    //     const auto& ID = it.first;
-    //     if( _treenode_models.count( ID ) == 0)
-    //     {
-    //         ID_to_delete.push_back(ID);
-    //     }
-    // }
-    // for(const auto& ID: ID_to_delete )
-    // {
-    //     _model_registry->unregisterModel(ID);
-    // }
-    // _editor_widget->updateTreeView();
+    std::list<QString> ID_to_delete;
+    for(const auto& it: _model_registry->registeredModelCreators() )
+    {
+        const auto& ID = it.first;
+        if( _treenode_models.count( ID ) == 0)
+        {
+            ID_to_delete.push_back(ID);
+        }
+    }
+    for(const auto& ID: ID_to_delete )
+    {
+        _model_registry->unregisterModel(ID);
+    }
+    _editor_widget->updateTreeView();
 }
 
 const NodeModels &MainWindow::registeredModels() const

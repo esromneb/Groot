@@ -6,25 +6,26 @@
 #include <QLineEdit>
 
 #include "bt_editor_base.h"
+#include "editor_flowscene.h"
 
-// #include <nodes/Node>
-// #include <nodes/NodeData>
-// #include <nodes/FlowScene>
-// #include <nodes/DataModelRegistry>
-// #include <nodes/FlowView>
+#include <nodes/Node>
+#include <nodes/NodeData>
+#include <nodes/FlowScene>
+#include <nodes/DataModelRegistry>
+#include <nodes/FlowView>
 
 class GraphicContainer : public QObject
 {
     Q_OBJECT
 public:
-    explicit GraphicContainer(std::shared_ptr<void> registry,
+    explicit GraphicContainer(std::shared_ptr<QtNodes::DataModelRegistry> registry,
                               QWidget *parent = nullptr);
 
-    // EditorFlowScene* scene() { return nullptr; }
-    // QtNodes::FlowView*  view() { return nullptr; }
+    EditorFlowScene* scene() { return nullptr; }
+    QtNodes::FlowView*  view() { return nullptr; }
 
-    // const EditorFlowScene* scene()  const{ return nullptr; }
-    // const QtNodes::FlowView* view() const { return nullptr; }
+    const EditorFlowScene* scene()  const{ return nullptr; }
+    const QtNodes::FlowView* view() const { return nullptr; }
 
     void lockEditing(bool locked);
 
@@ -82,7 +83,7 @@ signals:
 private:
     // EditorFlowScene* _scene;
     // QtNodes::FlowView*  _view;
-    // void*  _view;
+    void*  _view;
 
     void createMorphSubMenu(QtNodes::Node &node, QMenu *nodeMenu);
 
@@ -94,7 +95,7 @@ private:
                           AbstractTreeNode *abs_node,
                           QtNodes::Node* parent_node, int nest_level);
 
-   // std::shared_ptr<QtNodes::DataModelRegistry> _model_registry;
+   std::shared_ptr<QtNodes::DataModelRegistry> _model_registry;
 
    bool _signal_was_blocked;
 
