@@ -49,6 +49,7 @@ main(int argc, char *argv[])
     // if( parser.isSet(test_option) )
     // {
         MainWindow win( GraphicMode::EDITOR );
+        std::cout << "empty: " << win.saveToXML().toStdString() << "\n";
         win.setWindowTitle("Groot");
         win.show();
         // win.loadFromXML( ":/crossdoor_with_subtree.xml" );
