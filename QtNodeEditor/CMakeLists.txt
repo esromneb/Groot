@@ -50,14 +50,6 @@ add_library(QtNodeEditor STATIC
   # ${RESOURCES}
 )
 
-target_include_directories(QtNodeEditor
-  PUBLIC 
-    $<INSTALL_INTERFACE:include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  PRIVATE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/nodes/internal>
-)
 
 target_link_libraries(QtNodeEditor
   PUBLIC
@@ -94,7 +86,7 @@ set_target_properties(QtNodeEditor
 # Moc
 ##
 
-file(GLOB_RECURSE HEADERS_TO_MOC include/nodes/internal/*.hpp)
+# file(GLOB_RECURSE HEADERS_TO_MOC include/nodes/internal/*.hpp)
 
 qt5_wrap_cpp(nodes_moc
     ${HEADERS_TO_MOC}
