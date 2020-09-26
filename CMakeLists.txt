@@ -109,18 +109,18 @@ set(APP_CPPS
     # ./bt_editor/models/BehaviorTreeNodeModel.cpp
     # ./bt_editor/models/SubtreeNodeModel.cpp
 
-    ./bt_editor/mainwindow.cpp
+    # ./bt_editor/mainwindow.cpp
     # ./bt_editor/editor_flowscene.cpp
-    ./bt_editor/utils.cpp
-    ./bt_editor/bt_editor_base.cpp
-    ./bt_editor/graphic_container.cpp
-    ./bt_editor/startup_dialog.cpp
+    # ./bt_editor/utils.cpp
+    # ./bt_editor/bt_editor_base.cpp
+    # ./bt_editor/graphic_container.cpp
+    # ./bt_editor/startup_dialog.cpp
 
     # ./bt_editor/sidepanel_editor.cpp
     # ./bt_editor/sidepanel_replay.cpp
     # ./bt_editor/custom_node_dialog.cpp
 
-    ./bt_editor/XML_utilities.cpp
+    # ./bt_editor/XML_utilities.cpp
     )
 
 set(RESOURCE_FILES
@@ -130,12 +130,12 @@ set(RESOURCE_FILES
     )
 
 set(FORMS_UI
-  ./bt_editor/about_dialog.ui
-  ./bt_editor/mainwindow.ui
-  ./bt_editor/action_form.ui
+  # ./bt_editor/about_dialog.ui
+  # ./bt_editor/mainwindow.ui
+  # ./bt_editor/action_form.ui
   # ./bt_editor/sidepanel_editor.ui
   # ./bt_editor/sidepanel_replay.ui
-  ./bt_editor/startup_dialog.ui
+  # ./bt_editor/startup_dialog.ui
   # ./bt_editor/custom_node_dialog.ui
   )
 
