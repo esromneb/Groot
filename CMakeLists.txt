@@ -82,7 +82,7 @@ set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}  -fPIC")
 
 INCLUDE_DIRECTORIES( ${catkin_INCLUDE_DIRS}  ./  )
 
-# add_subdirectory( QtNodeEditor )
+add_subdirectory( QtNodeEditor )
 
 # ##########################################
 # # FIX ME in the future....
