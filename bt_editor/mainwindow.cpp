@@ -20,7 +20,6 @@
 #include <QInputDialog>
 
 
-
 #include "utils.h"
 #include "XML_utilities.hpp"
 
@@ -44,11 +43,6 @@ MainWindow::MainWindow(GraphicMode initial_mode, QWidget *parent) :
 
 }
 
-
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-   
-}
 
 
 GraphicContainer* MainWindow::createTab(const QString &name)
@@ -92,10 +86,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::loadFromXML(const QString& xml_text)
-{
-   
-}
 
 
 void MainWindow::on_actionLoad_triggered()

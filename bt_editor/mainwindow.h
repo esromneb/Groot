@@ -34,7 +34,7 @@ class Node;
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+    // Q_OBJECT
 
     enum SubtreeExpandOption{ SUBTREE_EXPAND,
                               SUBTREE_COLLAPSE,
@@ -79,8 +79,6 @@ public slots:
     void onDestroySubTree(const QString &ID);
 
     void onModelRemoveRequested(QString ID);
-
-    virtual void closeEvent(QCloseEvent *event) override;
 
     void on_actionLoad_triggered();
 
