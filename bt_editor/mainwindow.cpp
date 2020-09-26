@@ -30,17 +30,15 @@
 
 #include "ui_about_dialog.h"
 
-using QtNodes::DataModelRegistry;
-using QtNodes::FlowView;
-using QtNodes::FlowScene;
-using QtNodes::NodeGraphicsObject;
-using QtNodes::NodeState;
+// using QtNodes::DataModelRegistry;
+// using QtNodes::FlowView;
+// using QtNodes::FlowScene;
+// using QtNodes::NodeGraphicsObject;
+// using QtNodes::NodeState;
 
 MainWindow::MainWindow(GraphicMode initial_mode, QWidget *parent) :
                                                                     QMainWindow(parent),
-                                                                    ui(new Ui::MainWindow),
-                                                                    _current_mode(initial_mode),
-                                                                    _current_layout(QtNodes::PortLayout::Vertical)
+                                                                    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -59,7 +57,7 @@ GraphicContainer* MainWindow::createTab(const QString &name)
     {
         throw std::runtime_error(std::string("There is already a Tab named ") + name.toStdString() );
     }
-    GraphicContainer* ti = new GraphicContainer( _model_registry, this );
+    GraphicContainer* ti = new GraphicContainer( nullptr, this );
     _tab_info.insert( {name, ti } );
 
     
@@ -77,8 +75,8 @@ GraphicContainer* MainWindow::createTab(const QString &name)
     connect( ti, &GraphicContainer::undoableChange,
             this, &MainWindow::onSceneChanged );
 
-    connect( ti, &GraphicContainer::requestSubTreeExpand,
-            this, &MainWindow::onRequestSubTreeExpand );
+    // connect( ti, &GraphicContainer::requestSubTreeExpand,
+    //         this, &MainWindow::onRequestSubTreeExpand );
 
     connect( ti, &GraphicContainer::requestSubTreeCreate,
             this, &MainWindow::onCreateAbsBehaviorTree);
@@ -316,11 +314,7 @@ void MainWindow::onConnectionUpdate(bool connected)
     }
 }
 
-void MainWindow::onRequestSubTreeExpand(GraphicContainer& container,
-                                        QtNodes::Node& node)
-{
 
-}
 
 
 void MainWindow::onAddToModelRegistry(const NodeModel &model)
@@ -337,14 +331,7 @@ void MainWindow::onModelRemoveRequested(QString ID)
     
 }
 
-QtNodes::Node* MainWindow::subTreeExpand(GraphicContainer &container,
-                                         QtNodes::Node &node,
-                                         MainWindow::SubtreeExpandOption option)
-{
-   
 
-    return nullptr;
-}
 
 void MainWindow::on_toolButtonReorder_pressed()
 {
@@ -396,72 +383,11 @@ void MainWindow::on_actionClear_triggered()
 
 void MainWindow::onTreeNodeEdited(QString prev_ID, QString new_ID)
 {
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
 }
 
 
 void MainWindow::onActionClearTriggered(bool create_new)
 {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -473,140 +399,19 @@ void MainWindow::updateCurrentMode()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
-void MainWindow::refreshNodesLayout(QtNodes::PortLayout new_layout)
-{
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-}
 
 void MainWindow::refreshExpandedSubtrees()
 {
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
 }
 
 void MainWindow::on_toolButtonLayout_clicked()
 {
-    if( _current_layout == QtNodes::PortLayout::Horizontal)
-    {
-        refreshNodesLayout( QtNodes::PortLayout::Vertical );
-    }
-    else{
-        refreshNodesLayout( QtNodes::PortLayout::Horizontal );
-    }
+
 }
 
 void MainWindow::on_actionEditor_mode_triggered()

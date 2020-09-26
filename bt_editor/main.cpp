@@ -2,19 +2,19 @@
 #include <QApplication>
 #include <QDialog>
 #include <QFile>
-#include <nodes/NodeStyle>
-#include <nodes/FlowViewStyle>
-#include <nodes/ConnectionStyle>
-#include <nodes/DataModelRegistry>
+// #include <nodes/NodeStyle>
+// #include <nodes/FlowViewStyle>
+// #include <nodes/ConnectionStyle>
+// #include <nodes/DataModelRegistry>
 
 #include "mainwindow.h"
 #include "XML_utilities.hpp"
 #include "startup_dialog.h"
 
-using QtNodes::DataModelRegistry;
-using QtNodes::FlowViewStyle;
-using QtNodes::NodeStyle;
-using QtNodes::ConnectionStyle;
+// using QtNodes::DataModelRegistry;
+// using QtNodes::FlowViewStyle;
+// using QtNodes::NodeStyle;
+// using QtNodes::ConnectionStyle;
 
 int
 main(int argc, char *argv[])

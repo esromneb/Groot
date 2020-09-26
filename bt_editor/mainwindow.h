@@ -3,14 +3,14 @@
 
 #include <QMainWindow>
 #include <QDebug>
-#include <nodes/Node>
+// #include <nodes/Node>
 #include <QTreeWidgetItem>
 #include <QShortcut>
 #include <QTimer>
 #include <deque>
 #include <thread>
 #include <mutex>
-#include <nodes/DataModelRegistry>
+// #include <nodes/DataModelRegistry>
 
 #include "graphic_container.h"
 #include "XML_utilities.hpp"
@@ -71,8 +71,8 @@ public slots:
 
     void onConnectionUpdate(bool connected);
 
-    void onRequestSubTreeExpand(GraphicContainer& container,
-                                QtNodes::Node& node);
+    // void onRequestSubTreeExpand(GraphicContainer& container,
+    //                             QtNodes::Node& node);
 
     void onAddToModelRegistry(const NodeModel& model);
 
@@ -138,7 +138,6 @@ private:
 
     GraphicContainer* createTab(const QString &name);
 
-    void refreshNodesLayout(QtNodes::PortLayout new_layout);
 
     void refreshExpandedSubtrees();
 
@@ -160,15 +159,15 @@ private:
 
     void loadSavedStateFromJson(SavedState state);
 
-    QtNodes::Node *subTreeExpand(GraphicContainer& container,
-                       QtNodes::Node &node,
-                       SubtreeExpandOption option);
+    // QtNodes::Node *subTreeExpand(GraphicContainer& container,
+    //                    QtNodes::Node &node,
+    //                    SubtreeExpandOption option);
 
     Ui::MainWindow *ui;
 
     GraphicMode _current_mode;
 
-    std::shared_ptr<QtNodes::DataModelRegistry> _model_registry;
+    // std::shared_ptr<QtNodes::DataModelRegistry> _model_registry;
 
     std::map<QString, GraphicContainer*> _tab_info;
 
@@ -177,7 +176,7 @@ private:
     std::deque<SavedState> _undo_stack;
     std::deque<SavedState> _redo_stack;
     SavedState _current_state;
-    QtNodes::PortLayout _current_layout;
+    // QtNodes::PortLayout _current_layout;
 
     NodeModels _treenode_models;
 

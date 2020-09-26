@@ -15,39 +15,39 @@ find_package(Qt5 COMPONENTS
              Gui
              Svg)
 
-qt5_add_resources(RESOURCES ./resources/resources.qrc)
+# qt5_add_resources(RESOURCES ./resources/resources.qrc)
 
 # Unfortunately, as we have a split include/src, AUTOMOC doesn't work.
 # We'll have to manually specify some files
 set(CMAKE_AUTOMOC ON)
 
 set(CPP_SOURCE_FILES
-  src/Connection.cpp
-  src/ConnectionBlurEffect.cpp
-  src/ConnectionGeometry.cpp
-  src/ConnectionGraphicsObject.cpp
-  src/ConnectionPainter.cpp
-  src/ConnectionState.cpp
-  src/ConnectionStyle.cpp
-  src/DataModelRegistry.cpp
-  src/FlowScene.cpp
-  src/FlowView.cpp
-  src/FlowViewStyle.cpp
-  src/Node.cpp
-  src/NodeConnectionInteraction.cpp
-  src/NodeDataModel.cpp
-  src/NodeGeometry.cpp
-  src/NodeGraphicsObject.cpp
-  src/NodePainter.cpp
-  src/NodeState.cpp
-  src/NodeStyle.cpp
-  src/Properties.cpp
-  src/StyleCollection.cpp
+  # src/Connection.cpp
+  # src/ConnectionBlurEffect.cpp
+  # src/ConnectionGeometry.cpp
+  # src/ConnectionGraphicsObject.cpp
+  # src/ConnectionPainter.cpp
+  # src/ConnectionState.cpp
+  # src/ConnectionStyle.cpp
+  # src/DataModelRegistry.cpp
+  # src/FlowScene.cpp
+  # src/FlowView.cpp
+  # src/FlowViewStyle.cpp
+  # src/Node.cpp
+  # src/NodeConnectionInteraction.cpp
+  # src/NodeDataModel.cpp
+  # src/NodeGeometry.cpp
+  # src/NodeGraphicsObject.cpp
+  # src/NodePainter.cpp
+  # src/NodeState.cpp
+  # src/NodeStyle.cpp
+  # src/Properties.cpp
+  # src/StyleCollection.cpp
 )
 
 add_library(QtNodeEditor STATIC
-  ${CPP_SOURCE_FILES}
-  ${RESOURCES}
+  # ${CPP_SOURCE_FILES}
+  # ${RESOURCES}
 )
 
 target_include_directories(QtNodeEditor
