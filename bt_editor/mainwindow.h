@@ -34,7 +34,7 @@ class Node;
 
 class MainWindow : public QMainWindow
 {
-    // Q_OBJECT
+    Q_OBJECT
 
     enum SubtreeExpandOption{ SUBTREE_EXPAND,
                               SUBTREE_COLLAPSE,
