@@ -145,8 +145,8 @@ set(FORMS_UI
     # message(STATUS "ZeroMQ found.")
     add_definitions( -DZMQ_FOUND )
 
-    set(APP_CPPS ${APP_CPPS} ./bt_editor/sidepanel_monitor.cpp )
-    set(FORMS_UI ${FORMS_UI} ./bt_editor/sidepanel_monitor.ui )
+    # set(APP_CPPS ${APP_CPPS} ./bt_editor/sidepanel_monitor.cpp )
+    # set(FORMS_UI ${FORMS_UI} ./bt_editor/sidepanel_monitor.ui )
 
 # else()
     message(WARNING "ZeroMQ NOT found. Real-time monitoring disabled.")
@@ -173,6 +173,11 @@ qt5_add_resources(RESOURCES ./bt_editor/resources/icons.qrc)
 # target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
 
 target_link_libraries(behavior_tree_editor
+  PRIVATE
+    QtNodeEditor
+)
+
+target_link_libraries(behavior_tree_editor
   PUBLIC
     Qt5::Core
     Qt5::Widgets
@@ -183,20 +188,8 @@ target_link_libraries(behavior_tree_editor
 
 
 
-add_library(Groot  ./bt_editor/main.cpp  ${RESOURCE_FILES})
-# set_property(TARGET Groot PROPERTY POSITION_INDEPENDENT_CODE ON)
-
-target_compile_options(Groot
-  PUBLIC
-    -Wall -Wextra -std=c++11 -fPIC
-)
 
 
-target_link_libraries(Groot behavior_tree_editor)
-
-
-set_property(TARGET Groot PROPERTY AUTOMOC ON)
-set_property(TARGET Groot PROPERTY AUTORRC ON)
 set_property(TARGET behavior_tree_editor PROPERTY AUTOMOC ON)
 set_property(TARGET behavior_tree_editor PROPERTY AUTORRC ON)
 # CMAKE_AUTORCC
@@ -208,22 +201,22 @@ message(STATUS ${AUTORCC_EXECUTABLE})
 
 # ######################################################
 # # INSTALL
-if(catkin_FOUND)
-    set( GROOT_LIB_DESTINATION   ${CATKIN_PACKAGE_LIB_DESTINATION} )
-    set( GROOT_INC_DESTINATION   ${CATKIN_PACKAGE_INCLUDE_DESTINATION} )
-    set( GROOT_BIN_DESTINATION   ${CATKIN_PACKAGE_BIN_DESTINATION} )
-else()
-    set( GROOT_LIB_DESTINATION   lib )
-    set( GROOT_INC_DESTINATION   include )
-    set( GROOT_BIN_DESTINATION   bin )
+# if(catkin_FOUND)
+#     set( GROOT_LIB_DESTINATION   ${CATKIN_PACKAGE_LIB_DESTINATION} )
+#     set( GROOT_INC_DESTINATION   ${CATKIN_PACKAGE_INCLUDE_DESTINATION} )
+#     set( GROOT_BIN_DESTINATION   ${CATKIN_PACKAGE_BIN_DESTINATION} )
+# else()
+#     set( GROOT_LIB_DESTINATION   lib )
+#     set( GROOT_INC_DESTINATION   include )
+#     set( GROOT_BIN_DESTINATION   bin )
     
-    INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/groot_icon.png
-			 DESTINATION share/icons/hicolor/256x256)
+#     INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/groot_icon.png
+# 			 DESTINATION share/icons/hicolor/256x256)
 			 
-	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/Groot.desktop
-			 DESTINATION share/applications)
+# 	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/Groot.desktop
+# 			 DESTINATION share/applications)
     
-endif()
+# endif()
 
 
 
@@ -275,7 +268,7 @@ endif()
 
 
 INSTALL(TARGETS behavior_tree_editor LIBRARY DESTINATION ${GROOT_LIB_DESTINATION} )
-INSTALL(TARGETS Groot RUNTIME DESTINATION ${GROOT_BIN_DESTINATION} )
+# INSTALL(TARGETS Groot RUNTIME DESTINATION ${GROOT_BIN_DESTINATION} )
 
 
 

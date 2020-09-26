@@ -6,12 +6,9 @@
 #include <QSizeF>
 #include <map>
 #include <unordered_map>
-// #include <nodes/Node>
+#include <nodes/Node>
 #include <deque>
 #include <behaviortree_cpp_v3/bt_factory.h>
-
-#include <QMainWindow>
-
 
 using BT::NodeStatus;
 using BT::NodeType;
