@@ -92,10 +92,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::loadFromXML(const QString& xml_text)
-{
-   
-}
 
 
 void MainWindow::on_actionLoad_triggered()

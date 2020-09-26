@@ -45,8 +45,6 @@ public:
     explicit MainWindow(GraphicMode initial_mode, QWidget *parent = nullptr);
     ~MainWindow() override;
 
-    void loadFromXML(const QString &xml_text);
-
     QString saveToXML() const ;
 
     GraphicContainer* currentTabInfo();
