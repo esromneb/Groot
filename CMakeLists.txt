@@ -80,9 +80,9 @@ set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}  -fPIC")
 # set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 # set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
-INCLUDE_DIRECTORIES( ${catkin_INCLUDE_DIRS} ./QtNodeEditor/include ./  )
+INCLUDE_DIRECTORIES( ${catkin_INCLUDE_DIRS}  ./  )
 
-add_subdirectory( QtNodeEditor )
+# add_subdirectory( QtNodeEditor )
 
 # ##########################################
 # # FIX ME in the future....
@@ -106,19 +106,19 @@ set(CATKIN_ENABLE_TESTING OFF CACHE BOOL "")
 # ##########################################
 
 set(APP_CPPS
-    ./bt_editor/models/BehaviorTreeNodeModel.cpp
-    ./bt_editor/models/SubtreeNodeModel.cpp
+    # ./bt_editor/models/BehaviorTreeNodeModel.cpp
+    # ./bt_editor/models/SubtreeNodeModel.cpp
 
     ./bt_editor/mainwindow.cpp
-    ./bt_editor/editor_flowscene.cpp
+    # ./bt_editor/editor_flowscene.cpp
     ./bt_editor/utils.cpp
     ./bt_editor/bt_editor_base.cpp
     ./bt_editor/graphic_container.cpp
     ./bt_editor/startup_dialog.cpp
 
-    ./bt_editor/sidepanel_editor.cpp
-    ./bt_editor/sidepanel_replay.cpp
-    ./bt_editor/custom_node_dialog.cpp
+    # ./bt_editor/sidepanel_editor.cpp
+    # ./bt_editor/sidepanel_replay.cpp
+    # ./bt_editor/custom_node_dialog.cpp
 
     ./bt_editor/XML_utilities.cpp
     )
@@ -133,10 +133,10 @@ set(FORMS_UI
   ./bt_editor/about_dialog.ui
   ./bt_editor/mainwindow.ui
   ./bt_editor/action_form.ui
-  ./bt_editor/sidepanel_editor.ui
-  ./bt_editor/sidepanel_replay.ui
+  # ./bt_editor/sidepanel_editor.ui
+  # ./bt_editor/sidepanel_replay.ui
   ./bt_editor/startup_dialog.ui
-  ./bt_editor/custom_node_dialog.ui
+  # ./bt_editor/custom_node_dialog.ui
   )
 
 # find_package(ZMQ)
@@ -159,11 +159,18 @@ add_library(behavior_tree_editor
     ${FORMS_HEADERS}
 )
 
+target_compile_options(behavior_tree_editor
+  PUBLIC
+    -Wall -Wextra -std=c++11 -fPIC
+)
+
+
 # /mnt/overflow/work/wasm-groot/lib/Groot/bt_editor/resources/icons.qrc
 qt5_add_resources(RESOURCES ./bt_editor/resources/icons.qrc)
 # qt5_add_binary_resources(behavior_tree_editor bt_editor/resources)
 
-SET(GROOT_DEPENDENCIES QtNodeEditor )
+# SET(GROOT_DEPENDENCIES QtNodeEditor )
+# SET(GROOT_DEPENDENCIES GrootDeps )
 
 if( catkin_FOUND )
     SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} ${catkin_LIBRARIES} )
@@ -177,11 +184,28 @@ endif()
 
 target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
 
+target_link_libraries(behavior_tree_editor
+  # PUBLIC
+    Qt5::Core
+    Qt5::Widgets
+    Qt5::Gui
+    Qt5::Svg
+    Qt5::Xml
+)
 
-add_library(Groot ./bt_editor/main.cpp  ${RESOURCE_FILES})
+
+
+add_library(Groot  ./bt_editor/main.cpp  ${RESOURCE_FILES})
 # set_property(TARGET Groot PROPERTY POSITION_INDEPENDENT_CODE ON)
 
+target_compile_options(Groot
+  PUBLIC
+    -Wall -Wextra -std=c++11 -fPIC
+)
+
+
 target_link_libraries(Groot behavior_tree_editor)
+
 
 set_property(TARGET Groot PROPERTY AUTOMOC ON)
 set_property(TARGET Groot PROPERTY AUTORRC ON)
@@ -219,39 +243,39 @@ endif()
 
 
 # Get all propreties that cmake supports
-execute_process(COMMAND cmake --help-property-list OUTPUT_VARIABLE CMAKE_PROPERTY_LIST)
+# execute_process(COMMAND cmake --help-property-list OUTPUT_VARIABLE CMAKE_PROPERTY_LIST)
 
-# Convert command output into a CMake list
-STRING(REGEX REPLACE ";" "\\\\;" CMAKE_PROPERTY_LIST "${CMAKE_PROPERTY_LIST}")
-STRING(REGEX REPLACE "\n" ";" CMAKE_PROPERTY_LIST "${CMAKE_PROPERTY_LIST}")
+# # Convert command output into a CMake list
+# STRING(REGEX REPLACE ";" "\\\\;" CMAKE_PROPERTY_LIST "${CMAKE_PROPERTY_LIST}")
+# STRING(REGEX REPLACE "\n" ";" CMAKE_PROPERTY_LIST "${CMAKE_PROPERTY_LIST}")
 
-function(print_properties)
-    message ("CMAKE_PROPERTY_LIST = ${CMAKE_PROPERTY_LIST}")
-endfunction(print_properties)
+# function(print_properties)
+#     message ("CMAKE_PROPERTY_LIST = ${CMAKE_PROPERTY_LIST}")
+# endfunction(print_properties)
 
-function(print_target_properties tgt)
-    if(NOT TARGET ${tgt})
-      message("There is no target named '${tgt}'")
-      return()
-    endif()
+# function(print_target_properties tgt)
+#     if(NOT TARGET ${tgt})
+#       message("There is no target named '${tgt}'")
+#       return()
+#     endif()
 
-    foreach (prop ${CMAKE_PROPERTY_LIST})
-        string(REPLACE "<CONFIG>" "${CMAKE_BUILD_TYPE}" prop ${prop})
-    # Fix https://stackoverflow.com/questions/32197663/how-can-i-remove-the-the-location-property-may-not-be-read-from-target-error-i
-    if(prop STREQUAL "LOCATION" OR prop MATCHES "^LOCATION_" OR prop MATCHES "_LOCATION$")
-        continue()
-    endif()
-        # message ("Checking ${prop}")
-        get_property(propval TARGET ${tgt} PROPERTY ${prop} SET)
-        if (propval)
-            get_target_property(propval ${tgt} ${prop})
-            message ("${tgt} ${prop} = ${propval}")
-        endif()
-    endforeach(prop)
-endfunction(print_target_properties)
+#     foreach (prop ${CMAKE_PROPERTY_LIST})
+#         string(REPLACE "<CONFIG>" "${CMAKE_BUILD_TYPE}" prop ${prop})
+#     # Fix https://stackoverflow.com/questions/32197663/how-can-i-remove-the-the-location-property-may-not-be-read-from-target-error-i
+#     if(prop STREQUAL "LOCATION" OR prop MATCHES "^LOCATION_" OR prop MATCHES "_LOCATION$")
+#         continue()
+#     endif()
+#         # message ("Checking ${prop}")
+#         get_property(propval TARGET ${tgt} PROPERTY ${prop} SET)
+#         if (propval)
+#             get_target_property(propval ${tgt} ${prop})
+#             message ("${tgt} ${prop} = ${propval}")
+#         endif()
+#     endforeach(prop)
+# endfunction(print_target_properties)
 
 
-print_target_properties(behavior_tree_editor)
+# print_target_properties(behavior_tree_editor)
 
 
 

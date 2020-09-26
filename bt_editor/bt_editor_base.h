@@ -6,9 +6,12 @@
 #include <QSizeF>
 #include <map>
 #include <unordered_map>
-#include <nodes/Node>
+// #include <nodes/Node>
 #include <deque>
 #include <behaviortree_cpp_v3/bt_factory.h>
+
+#include <QMainWindow>
+
 
 using BT::NodeStatus;
 using BT::NodeType;
@@ -76,7 +79,8 @@ struct AbstractTreeNode
     QSizeF size;
     QPointF pos; // top left corner
     std::vector<int> children_index;
-    QtNodes::Node* graphic_node;
+    void* graphic_node;
+    // QtNodes::Node* graphic_node;
 
     bool operator ==(const AbstractTreeNode& other) const;
 

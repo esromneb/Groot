@@ -3,24 +3,24 @@
 
 #include <QMainWindow>
 #include <QDebug>
-#include <nodes/Node>
+// #include <nodes/Node>
 #include <QTreeWidgetItem>
 #include <QShortcut>
 #include <QTimer>
 #include <deque>
 #include <thread>
 #include <mutex>
-#include <nodes/DataModelRegistry>
+// #include <nodes/DataModelRegistry>
 
 #include "graphic_container.h"
 #include "XML_utilities.hpp"
-#include "sidepanel_editor.h"
-#include "sidepanel_replay.h"
-#include "models/SubtreeNodeModel.hpp"
+// #include "sidepanel_editor.h"
+// #include "sidepanel_replay.h"
+// #include "models/SubtreeNodeModel.hpp"
 
-#ifdef ZMQ_FOUND
-#include "sidepanel_monitor.h"
-#endif
+// #ifdef ZMQ_FOUND
+// #include "sidepanel_monitor.h"
+// #endif
 
 namespace Ui {
 class MainWindow;
@@ -71,8 +71,8 @@ public slots:
 
     void onConnectionUpdate(bool connected);
 
-    void onRequestSubTreeExpand(GraphicContainer& container,
-                                QtNodes::Node& node);
+    // void onRequestSubTreeExpand(GraphicContainer& container,
+    //                             QtNodes::Node& node);
 
     void onAddToModelRegistry(const NodeModel& model);
 
@@ -138,15 +138,13 @@ private:
 
     GraphicContainer* createTab(const QString &name);
 
-    void refreshNodesLayout(QtNodes::PortLayout new_layout);
 
     void refreshExpandedSubtrees();
 
-    void streamElementAttributes(QXmlStreamWriter &stream, const QDomElement &element) const;
 
     QString xmlDocumentToString(const QDomDocument &document) const;
 
-    void recursivelySaveNodeCanonically(QXmlStreamWriter &stream, const QDomNode &parent_node) const;
+    // void recursivelySaveNodeCanonically(QXmlStreamWriter &stream, const QDomNode &parent_node) const;
 
     struct SavedState
     {
@@ -161,15 +159,15 @@ private:
 
     void loadSavedStateFromJson(SavedState state);
 
-    QtNodes::Node *subTreeExpand(GraphicContainer& container,
-                       QtNodes::Node &node,
-                       SubtreeExpandOption option);
+    // QtNodes::Node *subTreeExpand(GraphicContainer& container,
+    //                    QtNodes::Node &node,
+    //                    SubtreeExpandOption option);
 
     Ui::MainWindow *ui;
 
     GraphicMode _current_mode;
 
-    std::shared_ptr<QtNodes::DataModelRegistry> _model_registry;
+    // std::shared_ptr<QtNodes::DataModelRegistry> _model_registry;
 
     std::map<QString, GraphicContainer*> _tab_info;
 
@@ -178,17 +176,17 @@ private:
     std::deque<SavedState> _undo_stack;
     std::deque<SavedState> _redo_stack;
     SavedState _current_state;
-    QtNodes::PortLayout _current_layout;
+    // QtNodes::PortLayout _current_layout;
 
     NodeModels _treenode_models;
 
     QString _main_tree;
 
-    SidepanelEditor* _editor_widget;
-    SidepanelReplay* _replay_widget;
-#ifdef ZMQ_FOUND
-    SidepanelMonitor* _monitor_widget;
-#endif
+    // SidepanelEditor* _editor_widget;
+    void* _replay_widget;
+// #ifdef ZMQ_FOUND
+//     SidepanelMonitor* _monitor_widget;
+// #endif
     
     MainWindow::SavedState saveCurrentState();
     void clearUndoStacks();
