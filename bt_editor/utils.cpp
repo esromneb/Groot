@@ -239,74 +239,74 @@ void RecursiveNodeReorder(AbsBehaviorTree& tree, PortLayout layout)
 void NodeReorder(QtNodes::FlowScene &scene, AbsBehaviorTree & tree)
 {
 
-    // for (const auto& abs_node: tree.nodes())
-    // {
-    //     Node* node =  abs_node.graphic_node;
-    //     if( node == nullptr )
-    //     {
-    //         throw std::runtime_error("one or more nodes haven't been created yet");
-    //     }
-    // }
+    for (const auto& abs_node: tree.nodes())
+    {
+        Node* node =  abs_node.graphic_node;
+        if( node == nullptr )
+        {
+            throw std::runtime_error("one or more nodes haven't been created yet");
+        }
+    }
 
-    // if( tree.nodesCount() == 0)
-    // {
-    //     return;
-    // }
+    if( tree.nodesCount() == 0)
+    {
+        return;
+    }
 
-    // RecursiveNodeReorder(tree, scene.layout() );
+    RecursiveNodeReorder(tree, scene.layout() );
 
-    // for (const auto& abs_node: tree.nodes())
-    // {
-    //     Node* node =  abs_node.graphic_node;
-    //     scene.setNodePosition( *node, abs_node.pos );
-    // }
+    for (const auto& abs_node: tree.nodes())
+    {
+        Node* node =  abs_node.graphic_node;
+        scene.setNodePosition( *node, abs_node.pos );
+    }
 }
 
 
 AbsBehaviorTree BuildTreeFromScene(const QtNodes::FlowScene *scene,
                                    QtNodes::Node* root_node)
 {
-    // if(!root_node )
-    // {
-    //     root_node = findRoot( *scene );
-    // }
-    // if( !root_node )
-    // {
-    //     if( scene->nodes().size() != 0)
-    //     {
-    //         qDebug() << "Error: can not create a tree from a scene unless it has a single root node ";
-    //     }
-    //     return AbsBehaviorTree();
-    // }
+    if(!root_node )
+    {
+        root_node = findRoot( *scene );
+    }
+    if( !root_node )
+    {
+        if( scene->nodes().size() != 0)
+        {
+            qDebug() << "Error: can not create a tree from a scene unless it has a single root node ";
+        }
+        return AbsBehaviorTree();
+    }
 
     AbsBehaviorTree tree;
 
-    // std::function<void(AbstractTreeNode*, QtNodes::Node*)> pushRecursively;
+    std::function<void(AbstractTreeNode*, QtNodes::Node*)> pushRecursively;
 
-    // pushRecursively = [&](AbstractTreeNode* parent, QtNodes::Node* node)
-    // {
-    //     AbstractTreeNode abs_node;
+    pushRecursively = [&](AbstractTreeNode* parent, QtNodes::Node* node)
+    {
+        AbstractTreeNode abs_node;
 
-    //     auto bt_model = dynamic_cast<BehaviorTreeDataModel*>(node->nodeDataModel());
+        auto bt_model = dynamic_cast<BehaviorTreeDataModel*>(node->nodeDataModel());
 
-    //     abs_node.model = bt_model->model();
-    //     abs_node.instance_name = bt_model->instanceName();
-    //     abs_node.pos  = scene->getNodePosition(*node) ;
-    //     abs_node.size = scene->getNodeSize(*node);
-    //     abs_node.graphic_node = node;
-    //     abs_node.ports_mapping = bt_model->getCurrentPortMapping();
+        abs_node.model = bt_model->model();
+        abs_node.instance_name = bt_model->instanceName();
+        abs_node.pos  = scene->getNodePosition(*node) ;
+        abs_node.size = scene->getNodeSize(*node);
+        abs_node.graphic_node = node;
+        abs_node.ports_mapping = bt_model->getCurrentPortMapping();
 
-    //     auto added_node = tree.addNode( parent, std::move(abs_node) );
+        auto added_node = tree.addNode( parent, std::move(abs_node) );
 
-    //     auto children = getChildren( *scene, *node, true );
+        auto children = getChildren( *scene, *node, true );
 
-    //     for(auto& child_node: children )
-    //     {
-    //         pushRecursively( added_node, child_node );
-    //     }
-    // };
+        for(auto& child_node: children )
+        {
+            pushRecursively( added_node, child_node );
+        }
+    };
 
-    // pushRecursively( nullptr, root_node );
+    pushRecursively( nullptr, root_node );
 
     return tree;
 }

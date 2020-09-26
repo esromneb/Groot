@@ -21,11 +21,11 @@ public:
     explicit GraphicContainer(std::shared_ptr<QtNodes::DataModelRegistry> registry,
                               QWidget *parent = nullptr);
 
-    EditorFlowScene* scene() { return nullptr; }
-    QtNodes::FlowView*  view() { return nullptr; }
+    EditorFlowScene* scene() { return _scene; }
+    QtNodes::FlowView*  view() { return _view; }
 
-    const EditorFlowScene* scene()  const{ return nullptr; }
-    const QtNodes::FlowView* view() const { return nullptr; }
+    const EditorFlowScene* scene()  const{ return _scene; }
+    const QtNodes::FlowView* view() const { return _view; }
 
     void lockEditing(bool locked);
 
@@ -81,9 +81,8 @@ signals:
     void requestSubTreeCreate(AbsBehaviorTree tree, QString name);
 
 private:
-    // EditorFlowScene* _scene;
-    // QtNodes::FlowView*  _view;
-    void*  _view;
+    EditorFlowScene* _scene;
+    QtNodes::FlowView*  _view;
 
     void createMorphSubMenu(QtNodes::Node &node, QMenu *nodeMenu);
 

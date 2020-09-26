@@ -76,8 +76,7 @@ struct AbstractTreeNode
     QSizeF size;
     QPointF pos; // top left corner
     std::vector<int> children_index;
-    void* graphic_node;
-    // QtNodes::Node* graphic_node;
+    QtNodes::Node* graphic_node;
 
     bool operator ==(const AbstractTreeNode& other) const;
 
