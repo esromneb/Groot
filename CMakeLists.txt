@@ -1,5 +1,26 @@
 cmake_minimum_required(VERSION 3.2)
 
+
+# project(GrootDeps CXX)
+
+# # Find the QtWidgets library
+# find_package(Qt5 COMPONENTS
+#              Core
+#              Xml
+#              Svg)
+
+
+# add_library(GrootDeps STATIC)
+
+# target_link_libraries(GrootDeps
+#   PUBLIC
+#     Qt5::Core
+#     Qt5::Xml
+#     Qt5::Svg
+# )
+
+
+
 project(groot)
 
 find_package(Qt5 COMPONENTS  Core Widgets Gui OpenGL Xml Svg)
@@ -52,6 +73,9 @@ INCLUDE_DIRECTORIES(
   # ./QtNodeEditor/include 
   ./  
   )
+
+
+
 
 add_subdirectory( QtNodeEditor )
 
@@ -133,7 +157,8 @@ add_library(behavior_tree_editor
     ${FORMS_HEADERS}
 )
 
-SET(GROOT_DEPENDENCIES QtNodeEditor )
+# SET(GROOT_DEPENDENCIES QtNodeEditor )
+SET(GROOT_DEPENDENCIES GrootDeps )
 
 if( catkin_FOUND )
     SET(GROOT_DEPENDENCIES ${GROOT_DEPENDENCIES} ${catkin_LIBRARIES} )
@@ -149,7 +174,7 @@ target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
 
 
 add_executable(Groot ./bt_editor/main.cpp  ${RESOURCE_FILES})
-target_link_libraries( Groot behavior_tree_editor )
+target_link_libraries( Groot   behavior_tree_editor )
 
 # target_link_libraries(Groot
   
@@ -157,7 +182,7 @@ target_link_libraries( Groot behavior_tree_editor )
 #     Qt5::Widgets
 #     Qt5::Gui
 #     Qt5::Svg
-#     Qt5::Xml
+  
 # )
 
 # target_compile_definitions(Groot
