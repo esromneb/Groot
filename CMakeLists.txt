@@ -154,15 +154,15 @@ set(FORMS_UI
 
 QT5_WRAP_UI(FORMS_HEADERS ${FORMS_UI})
 
-add_library(behavior_tree_editor STATIC
-    ${APP_CPPS}
-    ${FORMS_HEADERS}
-)
+# add_library(behavior_tree_editor STATIC
+#     ${APP_CPPS}
+#     ${FORMS_HEADERS}
+# )
 
-target_compile_options(behavior_tree_editor
-  PUBLIC
-    -Wall -Wextra -std=c++11 -fPIC -s RELOCATABLE=1
-)
+# target_compile_options(behavior_tree_editor
+#   PUBLIC
+#     -Wall -Wextra -std=c++11 -fPIC -s RELOCATABLE=1
+# )
 
 
 # /mnt/overflow/work/wasm-groot/lib/Groot/bt_editor/resources/icons.qrc
@@ -172,26 +172,26 @@ qt5_add_resources(RESOURCES ./bt_editor/resources/icons.qrc)
 
 # target_link_libraries(behavior_tree_editor ${GROOT_DEPENDENCIES} )
 
-target_link_libraries(behavior_tree_editor
-  PRIVATE
-    QtNodeEditor
-)
+# target_link_libraries(behavior_tree_editor
+#   PRIVATE
+#     QtNodeEditor
+# )
 
-target_link_libraries(behavior_tree_editor
-  PUBLIC
-    Qt5::Core
-    Qt5::Widgets
-    Qt5::Gui
-    Qt5::Svg
-    Qt5::Xml
-)
-
-
+# target_link_libraries(behavior_tree_editor
+#   PUBLIC
+#     Qt5::Core
+#     Qt5::Widgets
+#     Qt5::Gui
+#     Qt5::Svg
+#     Qt5::Xml
+# )
 
 
 
-set_property(TARGET behavior_tree_editor PROPERTY AUTOMOC ON)
-set_property(TARGET behavior_tree_editor PROPERTY AUTORRC ON)
+
+
+# set_property(TARGET behavior_tree_editor PROPERTY AUTOMOC ON)
+# set_property(TARGET behavior_tree_editor PROPERTY AUTORRC ON)
 # CMAKE_AUTORCC
 
 message(STATUS "AUTORCC_EXECUTABLE")
@@ -267,7 +267,7 @@ message(STATUS ${AUTORCC_EXECUTABLE})
 
 
 
-INSTALL(TARGETS behavior_tree_editor LIBRARY DESTINATION ${GROOT_LIB_DESTINATION} )
+# INSTALL(TARGETS behavior_tree_editor LIBRARY DESTINATION ${GROOT_LIB_DESTINATION} )
 # INSTALL(TARGETS Groot RUNTIME DESTINATION ${GROOT_BIN_DESTINATION} )
 
 
