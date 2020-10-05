@@ -14,6 +14,37 @@
 #include <QJsonArray>
 #include <QSettings>
 
+#include "finddialog.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 SidepanelEditor::SidepanelEditor(QtNodes::DataModelRegistry *registry,
                                  NodeModels &tree_nodes_model,
                                  QWidget *parent) :
@@ -147,17 +178,32 @@ void SidepanelEditor::on_lineEditFilter_textChanged(const QString &text)
 
 void SidepanelEditor::on_buttonAddNode_clicked()
 {
-    CustomNodeDialog dialog(_tree_nodes_model, QString(), this);
-    if( dialog.exec() == QDialog::Accepted)
-    {
-        auto new_model = dialog.getTreeNodeModel();
-        if( new_model.type == NodeType::SUBTREE )
-        {
-            emit addSubtree( new_model.registration_ID );
-        }
-        emit addNewModel( new_model );
-    }
-    updateTreeView();
+    // CustomNodeDialog dialog(_tree_nodes_model, QString(), this);
+    // std::cout << "AAA\n";
+    // dialog.open();
+    // std::cout << "BBB\n";
+    // dialog.show();
+    // std::cout << "CCC\n";
+
+    FindDialog *dialog = new FindDialog(this);
+    dialog->show();
+
+
+    // dialog.exec();
+    // std::cout << "DDD\n";
+
+
+
+    // if( dialog.exec() == QDialog::Accepted)
+    // {
+    //     auto new_model = dialog.getTreeNodeModel();
+    //     if( new_model.type == NodeType::SUBTREE )
+    //     {
+    //         emit addSubtree( new_model.registration_ID );
+    //     }
+    //     emit addNewModel( new_model );
+    // }
+    // updateTreeView();
 }
 
 void SidepanelEditor::onRemoveModel(QString selected_name)

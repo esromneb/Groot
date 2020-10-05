@@ -15,6 +15,7 @@ CustomNodeDialog::CustomNodeDialog(const NodeModels &models,
     _models(models),
     _editing(false)
 {
+    this->setWindowModality(Qt::ApplicationModal);
     ui->setupUi(this);
     setWindowTitle("Custom TreeNode Editor");
 
