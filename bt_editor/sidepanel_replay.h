@@ -26,6 +26,8 @@ public:
 
     size_t transitionsCount() const { return _transitions.size(); }
 
+    void ddebug(void);
+
 public slots:
 
     void on_LoadLog();

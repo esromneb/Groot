@@ -15,15 +15,21 @@ CustomNodeDialog::CustomNodeDialog(const NodeModels &models,
     _models(models),
     _editing(false)
 {
+
+    std::cout << "0000\n";
     ui->setupUi(this);
+    std::cout << "1111\n";
     setWindowTitle("Custom TreeNode Editor");
+    std::cout << "2222\n";
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
 
+    std::cout << "3333\n";
     QSettings settings;
+    std::cout << "4444\n";
     restoreGeometry(settings.value("CustomNodeDialog/geometry").toByteArray());
     ui->tableWidget->horizontalHeader()->restoreState( settings.value("CustomNodeDialog/header").toByteArray() );
 

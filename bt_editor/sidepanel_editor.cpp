@@ -2,6 +2,7 @@
 #include "ui_sidepanel_editor.h"
 #include "custom_node_dialog.h"
 #include "utils.h"
+#include "finddialog.h"
 
 #include <QHeaderView>
 #include <QPushButton>
@@ -13,6 +14,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QSettings>
+
 
 SidepanelEditor::SidepanelEditor(QtNodes::DataModelRegistry *registry,
                                  NodeModels &tree_nodes_model,
@@ -147,18 +149,39 @@ void SidepanelEditor::on_lineEditFilter_textChanged(const QString &text)
 
 void SidepanelEditor::on_buttonAddNode_clicked()
 {
-    CustomNodeDialog dialog(_tree_nodes_model, QString(), this);
-    if( dialog.exec() == QDialog::Accepted)
-    {
-        auto new_model = dialog.getTreeNodeModel();
-        if( new_model.type == NodeType::SUBTREE )
-        {
-            emit addSubtree( new_model.registration_ID );
-        }
-        emit addNewModel( new_model );
-    }
-    updateTreeView();
+    FindDialog *dialog = new FindDialog(this);
+    dialog->show();
 }
+
+/*
+void SidepanelEditor::on_buttonAddNode_clicked()
+{
+    std::cout << "on_buttonAddNode_clicked()\n";
+
+    CustomNodeDialog dialog(_tree_nodes_model, QString(), this);
+    std::cout << "AAAAAAA\n";
+
+    // dialog.setWindowModality(QtCore.Qt.ApplicationModal);
+    dialog.setWindowModality(Qt::WindowModality::ApplicationModal);
+
+    dialog.open();
+        std::cout << "BBBBB\n";
+    // if( dialog.exec() == QDialog::Accepted)
+    // {
+    //     auto new_model = dialog.getTreeNodeModel();
+    //     if( new_model.type == NodeType::SUBTREE )
+    //     {
+    //         emit addSubtree( new_model.registration_ID );
+    //         std::cout << "CCCCC\n";
+    //     }
+    //     emit addNewModel( new_model );
+    //         std::cout << "DDDDD\n";
+    // }
+
+    // updateTreeView();
+    //         std::cout << "EEEEE\n";
+}
+*/
 
 void SidepanelEditor::onRemoveModel(QString selected_name)
 {

@@ -46,6 +46,13 @@ SidepanelReplay::SidepanelReplay(QWidget *parent) :
     ui->tableView->installEventFilter(this);
 }
 
+void SidepanelReplay::ddebug(void)
+{
+    const QString bt_name("BehaviorTree");
+    std::vector<std::pair<int, NodeStatus>>  node_status;
+    emit changeNodeStyle( bt_name, node_status );
+}
+
 SidepanelReplay::~SidepanelReplay()
 {
     delete ui;

@@ -40,6 +40,7 @@ QtNodes::Node &EditorFlowScene::createNodeAtPos(const QString &ID, const QString
 
 void EditorFlowScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
+    std::cout << "dragEnterEvent\n";
     if(event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist")  )
     {
         event->setAccepted(true);

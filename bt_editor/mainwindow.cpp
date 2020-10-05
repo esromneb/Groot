@@ -196,6 +196,11 @@ MainWindow::MainWindow(GraphicMode initial_mode, QWidget *parent) :
     _current_state = saveCurrentState();
 }
 
+void MainWindow::ddebug(void)
+{
+
+}
+
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {

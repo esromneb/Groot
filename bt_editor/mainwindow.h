@@ -57,6 +57,8 @@ public:
 
     const NodeModels &registeredModels() const;
 
+    void ddebug(void);
+
 public slots:
 
     void onAutoArrange();
@@ -184,6 +186,7 @@ private:
 
     QString _main_tree;
 
+public:
     SidepanelEditor* _editor_widget;
     SidepanelReplay* _replay_widget;
 #ifdef ZMQ_FOUND
