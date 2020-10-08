@@ -15,6 +15,8 @@ StartupDialog::StartupDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    move(0,0);
+
     setFixedSize( size() );
 
     QSettings settings;
